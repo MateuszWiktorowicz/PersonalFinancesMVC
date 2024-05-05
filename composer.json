@@ -1,0 +1,16 @@
+{
+    "name": "wikto/personal-finances-mvc",
+    "authors": [
+        {
+            "name": "MateuszWiktorowicz",
+            "email": "83886002+MateuszWiktorowicz@users.noreply.github.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4" : {
+            "Framework\\": "src/Framework",
+            "App\\": "src/App"
+        }
+    }
+}
