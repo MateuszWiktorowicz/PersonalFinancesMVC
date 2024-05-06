@@ -13,7 +13,7 @@ class HomeController
 
     public function __construct()
     {
-        $this->view = new TemplateEngine(PATHS::VIEW);
+        $this->view = new TemplateEngine(PATHS::VIEWS);
     }
 
     public function home()
