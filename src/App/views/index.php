@@ -1,3 +1,5 @@
+<?php include $this->resolve("partials/_header.php") ?>
+
 <body class="d-flex flex-column">
     <nav class="navbar bg-body-tertiary">
         <div class="container-sm d-flex justify-content-between align-items-center">
@@ -99,3 +101,4 @@
 
     </main>
 </body>
+<?php include $this->resolve("partials/_footer.php") ?>
