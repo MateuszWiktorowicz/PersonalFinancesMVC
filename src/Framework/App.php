@@ -22,16 +22,42 @@ class App
         }
     }
 
-    public function Run()
+    public function run()
     {
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = $_SERVER['REQUEST_METHOD'];
 
-        $this->router->dispatch($path, $method);
+        $this->router->dispatch($path, $method, $this->container);
     }
 
-    public function getMethod(string $path,  array $controller)
+    public function getMethod(string $path, array $controller): App
     {
         $this->router->addRoute('GET', $path, $controller);
+
+        return $this;
+    }
+
+    public function addMiddleware(string $middleware)
+    {
+        $this->router->addMiddleware($middleware);
+    }
+
+    public function post(string $path, array $controller): App
+    {
+        $this->router->addRoute('POST', $path, $controller);
+
+        return $this;
+    }
+
+    public function delete(string $path, array $controller): App
+    {
+        $this->router->addRoute('DELETE', $path, $controller);
+
+        return $this;
+    }
+
+    public function add(string $middleware)
+    {
+        $this->router->addRouteMiddleware($middleware);
     }
 }
