@@ -10,3 +10,17 @@
     <link href="./styles.css" rel="stylesheet">
 
 </head>
+<nav class="navbar bg-body-tertiary">
+    <div class="container-sm d-flex justify-content-between align-items-center">
+        <div class="col-3">
+            <a class="navbar-brand" href="/">
+                <img src="./images/piggyBank.png" alt="piggy-bank-image" width="50" height="50">
+                PersonalFinances
+            </a>
+        </div>
+        <div class="d-flex justify-content-between align-items-center text-center gap-2 p-3 col-3">
+            <div class="menuOptions col-6"><a href="/login">Sign In</a></div>
+            <div class="menuOptions col-6"><a href="/register">Sign Up</a></div>
+        </div>
+    </div>
+</nav>
