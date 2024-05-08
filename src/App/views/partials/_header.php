@@ -23,11 +23,11 @@
                 <div class="menuOptions col-6"><a href="/login">Sign In</a></div>
                 <div class="menuOptions col-6"><a href="/register">Sign Up</a></div>
             <?php else : ?>
-                <div><a class="text-reset text-decoration-none menuOptions" href="./addIncome.php">Add Income</a></div>
-                <div><a class="text-reset text-decoration-none menuOptions" href="./addExpense.php">Add Expense</a></div>
-                <div><a class="text-reset text-decoration-none menuOptions" href="./balance.php">Balance</a></div>
-                <div><a class="text-reset text-decoration-none menuOptions" href="./settings.php">Settings</a></div>
-                <div><a class="text-reset text-decoration-none menuOptions" href="./logout.php">Logout</a></div>
+                <div><a class="text-reset text-decoration-none menuOptions" href="/income">Add Income</a></div>
+                <div><a class="text-reset text-decoration-none menuOptions" href="/expense">Add Expense</a></div>
+                <div><a class="text-reset text-decoration-none menuOptions" href="/balance">Balance</a></div>
+                <div><a class="text-reset text-decoration-none menuOptions" href="/settings">Settings</a></div>
+                <div><a class="text-reset text-decoration-none menuOptions" href="/logout">Logout</a></div>
             <?php endif; ?>
         </div>
     </div>

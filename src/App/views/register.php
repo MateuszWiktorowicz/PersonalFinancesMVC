@@ -43,5 +43,4 @@
             <button type="submit" class="btn btn-primary" id="registerSubmit">Submit</button>
         </form>
     </div>
-</body>
-<?php include $this->resolve("partials/_footer.php") ?>
+    <?php include $this->resolve("partials/_footer.php") ?>

@@ -16,4 +16,24 @@ class MenuController
     {
         echo $this->view->render("/mainMenu.php");
     }
+
+    public function incomeView()
+    {
+        echo $this->view->render("/income.php");
+    }
+
+    public function expenseView()
+    {
+        echo $this->view->render("/expense.php");
+    }
+
+    public function balanceView()
+    {
+        echo $this->view->render("/balance.php");
+    }
+
+    public function settingsView()
+    {
+        echo $this->view->render("/settings.php");
+    }
 }

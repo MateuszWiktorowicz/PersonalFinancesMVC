@@ -25,5 +25,4 @@
             <button type="submit" class="btn btn-primary" id="loginSubmit">Submit</button>
         </form>
     </div>
-</body>
-<?php include $this->resolve("partials/_footer.php") ?>
+    <?php include $this->resolve("partials/_footer.php") ?>
