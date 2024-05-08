@@ -7,6 +7,7 @@
     <title>PersonalFinances</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="./dataPicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
 
 </head>
@@ -14,7 +15,7 @@
     <div class="container-sm d-flex justify-content-between align-items-center">
         <div class="col-3">
             <a class="navbar-brand" href="/">
-                <img src="./images/piggyBank.png" alt="piggy-bank-image" width="50" height="50">
+                <img src="/assets/images/piggyBank.png" alt="piggy-bank-image" width="50" height="50">
                 PersonalFinances
             </a>
         </div>
