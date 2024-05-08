@@ -19,8 +19,12 @@
             </a>
         </div>
         <div class="d-flex justify-content-between align-items-center text-center gap-2 p-3 col-3">
-            <div class="menuOptions col-6"><a href="/login">Sign In</a></div>
-            <div class="menuOptions col-6"><a href="/register">Sign Up</a></div>
+            <?php if (!isset($_SESSION['user'])) : ?>
+                <div class="menuOptions col-6"><a href="/login">Sign In</a></div>
+                <div class="menuOptions col-6"><a href="/register">Sign Up</a></div>
+            <?php else : ?>
+                <div class="menuOptions col-6"><a href="/logout">Logout</a></div>
+            <?php endif; ?>
         </div>
     </div>
 </nav>
