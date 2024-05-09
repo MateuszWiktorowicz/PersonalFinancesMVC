@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Framework\TemplateEngine;
-use App\Services\UserService;
+use App\Services\{UserService, TransactionService};
 
 
 class MenuController
@@ -14,7 +14,8 @@ class MenuController
 
     public function __construct(
         private TemplateEngine $view,
-        private UserService $userService
+        private UserService $userService,
+        private TransactionService $transactionService
 
     ) {
         $this->userSettings = $this->userService->getUserSettings();
@@ -46,7 +47,16 @@ class MenuController
 
     public function balanceView()
     {
-        echo $this->view->render("/balance.php");
+        echo $this->view->render(
+            "/balance.php",
+            [
+                'expenses' => $this->transactionService->getExpensesFromPeriod('2024-05-01', '2024-05-30'),
+                'incomes' => $this->transactionService->getIncomesFromPeriod('2024-05-01', '2024-05-30'),
+                'totalIncomes' => $this->transactionService->countIncomesFromPeriod('2024-05-01', '2024-05-30'),
+                'totalExpenses' => $this->transactionService->countExpensesFromPeriod('2024-05-01', '2024-05-30'),
+                'balance' => $this->transactionService->countBalanceFromPeriod('2024-05-01', '2024-05-30')
+            ]
+        );
     }
 
     public function settingsView()
