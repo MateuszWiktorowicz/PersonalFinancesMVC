@@ -12,7 +12,7 @@
                             <input value="<?php echo escapeData($oldFormData['amount'] ?? ''); ?>" type="number" step="0.01" min="0" class="form-control" name="amount" id="amount" aria-describedby="amountContainer" required>
                             <div id="amountContainer" class="form-text">Enter the number to two decimal places.</div>
                             <?php if (array_key_exists('amount', $errors)) : ?>
-                                <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                                <div class="mt-2 p-2 text-danger">
                                     <?php echo escapeData($errors['amount'][0]); ?>
                                 </div>
                             <?php endif; ?>
@@ -21,7 +21,7 @@
                             <label for="date" class="form-label">Income date:</label>
                             <input type="text" class="datepicker form-control" name="date" id="date" required>
                             <?php if (array_key_exists('date', $errors)) : ?>
-                                <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                                <div class="mt-2 p-2 text-danger">
                                     <?php echo escapeData($errors['date'][0]); ?>
                                 </div>
                             <?php endif; ?>
@@ -35,7 +35,7 @@
                                     <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
                                 <?php endforeach; ?>
                                 <?php if (array_key_exists('category', $errors)) : ?>
-                                    <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                                    <div class="mt-2 p-2 text-danger">
                                         <?php echo escapeData($errors['category'][0]); ?>
                                     </div>
                                 <?php endif; ?>
@@ -46,7 +46,7 @@
                             <label for="description" class="form-label">Comment:</label>
                             <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                             <?php if (array_key_exists('description', $errors)) : ?>
-                                <div class="bg-gray-100 mt-2 p-2 text-red-500">
+                                <div class="mt-2 p-2 text-danger">
                                     <?php echo escapeData($errors['description'][0]); ?>
                                 </div>
                             <?php endif; ?>
