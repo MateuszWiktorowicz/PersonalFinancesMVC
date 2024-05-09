@@ -14,6 +14,14 @@
                         <div class="mb-3">
                             <label for="expensePaymentMethod" class="form-label">Payment method</label>
                             <div class="expensePaymentMethods" id="expensePaymentMethod">
+                                <?php foreach ($paymenthMethods as $method) : ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="payment_method" id="<?php echo $method['name']; ?>" value="<?php echo $method['name']; ?>">
+                                        <label class="form-check-label" for="<?php echo $method['name']; ?>">
+                                            <?php echo $method['name']; ?>
+                                        </label>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -24,6 +32,9 @@
                             <label for="expenseCategory" class="form-label">Expense category:</label>
                             <select class="form-select expenseCategories" aria-label="Expense Category:" name="expenseCategory" id="expenseCategory" required>
                                 <option value="" disabled selected hidden>Select an expense category</option>
+                                <?php foreach ($expensesCategory as $category) : ?>
+                                    <option value="<?php echo $category['name']; ?>"><?php echo $category['name']; ?></option>
+                                <?php endforeach; ?>
 
                             </select>
                         </div>

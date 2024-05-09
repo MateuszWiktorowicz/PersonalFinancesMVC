@@ -1,5 +1,9 @@
 <?php include $this->resolve("partials/_header.php"); ?>
 
+<?php foreach ($incomesCategory as $category) : ?>
+    <?php echo $category['name']; ?>
+<?php endforeach; ?>
+
 <body>
     <main>
         <div class="d-flex justify-content-center">
@@ -16,10 +20,15 @@
                             <input type="text" class="datepicker form-control" name="incomeDate" id="incomeDate" required>
                         </div>
                         <div class="mb-3">
+
                             <label for="incomeCategory" class="form-label">Income category:</label>
                             <select class="form-select incomeCategories" aria-label="Income Category:" name="incomeCategory" id="incomeCategory" required>
                                 <option value="" disabled selected hidden>Select an income category</option>
+                                <?php foreach ($incomesCategory as $category) : ?>
+                                    <option value="<?php echo $category['name']; ?>"><?php echo $category['name']; ?></option>
+                                <?php endforeach; ?>
                             </select>
+
                         </div>
                         <div class="mb-3">
                             <label for="incomeTextArea" class="form-label">Comment:</label>

@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Framework\TemplateEngine;
+use App\Services\UserService;
+
 
 class MenuController
 {
-    public function __construct(private TemplateEngine $view)
-    {
+    private array $userSettings = [];
+
+    public function __construct(
+        private TemplateEngine $view,
+        private UserService $userService
+
+    ) {
+        $this->userSettings = $this->userService->getUserSettings();
     }
 
     public function menuView()
@@ -19,12 +27,21 @@ class MenuController
 
     public function incomeView()
     {
-        echo $this->view->render("/income.php");
+
+        echo $this->view->render(
+            "/income.php",
+            [
+                'incomesCategory' => $this->userSettings['incomesCategory']
+            ]
+        );
     }
 
     public function expenseView()
     {
-        echo $this->view->render("/expense.php");
+        echo $this->view->render("/expense.php", [
+            'expensesCategory' => $this->userSettings['expensesCategory'],
+            'paymenthMethods' => $this->userSettings['paymentMethods']
+        ]);
     }
 
     public function balanceView()

@@ -42,7 +42,62 @@ class UserService
         session_regenerate_id();
 
         $_SESSION['user'] = $this->db->id();
+
+        $this->assignDefaultSettingToNewUser(intval($_SESSION['user']));
     }
+
+    private function assignDefaultSettingToNewUser()
+    {
+        $tables = [
+            'expenses_category_assigned_to_users' => 'expenses_category_default',
+            'incomes_category_assigned_to_users' => 'incomes_category_default',
+            'payment_methods_assigned_to_users' => 'payment_methods_default'
+        ];
+
+        foreach ($tables as $assignedTable => $defaultTable) {
+            $this->db->query(
+                "INSERT INTO $assignedTable (user_id, name) SELECT :user_id, name FROM $defaultTable",
+                ['user_id' => $_SESSION['user']]
+            );
+        }
+    }
+
+    public function getUserSettings()
+    {
+        session_start();
+
+        $user_id = $_SESSION['user'];
+
+        session_write_close();
+
+        $expensesCategory = $this->db->query(
+            "SELECT name FROM expenses_category_assigned_to_users WHERE user_id = :user_id",
+            [
+                'user_id' => $user_id
+            ]
+        )->findAll();
+
+        $incomesCategory = $this->db->query(
+            "SELECT name FROM incomes_category_assigned_to_users WHERE user_id = :user_id",
+            [
+                'user_id' => $user_id
+            ]
+        )->findAll();
+
+        $paymentMethods = $this->db->query(
+            "SELECT name FROM payment_methods_assigned_to_users WHERE user_id = :user_id",
+            [
+                'user_id' => $user_id
+            ]
+        )->findAll();
+
+        return [
+            'incomesCategory' => $incomesCategory,
+            'expensesCategory' => $expensesCategory,
+            'paymentMethods' => $paymentMethods
+        ];
+    }
+
 
     public function login(array $formData)
     {
@@ -67,7 +122,7 @@ class UserService
     {
         unset($_SESSION['user']);
 
-        //session_regenerate_id();
+        session_regenerate_id();
 
         $params = session_get_cookie_params();
 
