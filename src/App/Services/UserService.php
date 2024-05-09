@@ -71,21 +71,21 @@ class UserService
         session_write_close();
 
         $expensesCategory = $this->db->query(
-            "SELECT name FROM expenses_category_assigned_to_users WHERE user_id = :user_id",
+            "SELECT * FROM expenses_category_assigned_to_users WHERE user_id = :user_id",
             [
                 'user_id' => $user_id
             ]
         )->findAll();
 
         $incomesCategory = $this->db->query(
-            "SELECT name FROM incomes_category_assigned_to_users WHERE user_id = :user_id",
+            "SELECT * FROM incomes_category_assigned_to_users WHERE user_id = :user_id",
             [
                 'user_id' => $user_id
             ]
         )->findAll();
 
         $paymentMethods = $this->db->query(
-            "SELECT name FROM payment_methods_assigned_to_users WHERE user_id = :user_id",
+            "SELECT * FROM payment_methods_assigned_to_users WHERE user_id = :user_id",
             [
                 'user_id' => $user_id
             ]
