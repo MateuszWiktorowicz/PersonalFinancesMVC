@@ -73,13 +73,32 @@ class TransactionService
             incomes
             INNER JOIN incomes_category_assigned_to_users AS ic ON ic.id = incomes.income_category_assigned_to_user_id
         WHERE 
-            incomes.user_id = :user_id",
+            incomes.user_id = :user_id 
+            ORDER BY date DESC",
             [
                 'user_id' => $_SESSION['user']
             ]
         )->findAll();
 
         return $transactions;
+    }
+
+    public function getUserTotalBalance()
+    {
+        $incomes = $this->db->query(
+            "SELECT SUM(amount) AS amount FROM incomes WHERE user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user']
+            ]
+        )->find();
+        $expenses = $this->db->query(
+            "SELECT SUM(amount) AS amount FROM expenses WHERE user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user']
+            ]
+        )->find();
+
+        return $incomes['amount'] - $expenses['amount'];
     }
 
     public function getIncomesFromPeriod(string $startDate, string $endDate)

@@ -20,13 +20,13 @@ class TransactionController
     {
         $this->validatorService->validateTranstaction($_POST);
         $this->transactionService->createIncome($_POST);
-        redirectTo('/income');
+        redirectTo('/mainMenu');
     }
 
     public function createExpense()
     {
         $this->validatorService->validateTranstaction(($_POST));
         $this->transactionService->createExpense($_POST);
-        redirectTo('/expense');
+        redirectTo('/mainMenu');
     }
 }

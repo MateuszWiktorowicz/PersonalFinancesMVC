@@ -24,10 +24,12 @@ class MenuController
     public function menuView()
     {
         $transactions = $this->transactionService->getUserTransactions();
+        $balance = $this->transactionService->getUserTotalBalance();
 
 
         echo $this->view->render("/mainMenu.php", [
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'balance' => $balance
         ]);
     }
 
