@@ -65,7 +65,9 @@ class MenuController
                 'transactions' => $this->transactionService->getUserTransactionsFromPeriod('2024-05-11', '2024-05-30'),
                 'totalIncomes' => $this->transactionService->countIncomesFromPeriod('2024-05-11', '2024-05-30'),
                 'totalExpenses' => $this->transactionService->countExpensesFromPeriod('2024-05-11', '2024-05-30'),
-                'balance' => $this->transactionService->countBalanceFromPeriod('2024-05-11', '2024-05-30')
+                'balance' => $this->transactionService->countBalanceFromPeriod('2024-05-11', '2024-05-30'),
+                'incomesCategoryBalance' => $this->transactionService->getIncomesBalanceByCategoryNameFromPeriod('2024-05-11', '2024-05-30'),
+                'expensesCategoryBalance' => $this->transactionService->getExpensesBalanceByCategoryNameFromPeriod('2024-05-11', '2024-05-30')
             ]
         );
     }

@@ -2,8 +2,6 @@
 
 <body>
     <main>
-
-
         <div class="text-center fs-5 my-5">
             <h1>Your total balance: <span><?php echo $balance . " PLN"; ?></span></h1>
         </div>
@@ -48,6 +46,24 @@
                 </tbody>
 
             </table>
+            <div class="my-5">
+                <h3>Earning Categories</h3>
+            </div>
+            <div class="d-flex gap-5">
+                <?php foreach ($incomesCategoryBalance as $categoryBalance) : ?>
+                    <div class="d-flex col-2 categoryBox p-2 rounded">
+                        <div class="col-8 p-1">
+                            <div><?php echo $categoryBalance['value'] . " PLN"; ?></div>
+                            <div><?php echo $categoryBalance['name']; ?></div>
+                        </div>
+                        <div class="col-4 p-1 d-flex flex-row-reverse">
+                            <div><?php echo round(($categoryBalance['value'] / $totalIncomes['amount']) * 100, 0) . "%"; ?></div>
+                        </div>
+
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
 
         </div>
         <div>
@@ -89,8 +105,25 @@
                             <?php endif; ?>
                         <?php endforeach; ?>
                 </tbody>
-
             </table>
+            <div class="my-5">
+                <h3>Spending Categories</h3>
+            </div>
+            <div class="d-flex gap-5">
+                <?php foreach ($expensesCategoryBalance as $categoryBalance) : ?>
+                    <div class="d-flex col-2 categoryBox p-2 rounded">
+                        <div class="col-8 p-1">
+                            <div><?php echo $categoryBalance['value'] . " PLN"; ?></div>
+                            <div><?php echo $categoryBalance['name']; ?></div>
+                        </div>
+                        <div class="col-4 p-1 d-flex flex-row-reverse">
+                            <div><?php echo round(($categoryBalance['value'] / $totalExpenses['amount']) * 100, 0) . "%"; ?></div>
+                        </div>
+
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
         </div>
     </main>
     <?php include $this->resolve("partials/_footer.php"); ?>
