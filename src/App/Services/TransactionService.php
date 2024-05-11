@@ -45,6 +45,43 @@ class TransactionService
         );
     }
 
+    public function getUserTransactions()
+    {
+        $transactions = $this->db->query(
+            "SELECT 
+            expenses.amount AS amount,
+            ec.name AS category,
+            pm.name AS paymentMethod,
+            expenses.date_of_expense AS date,
+            expenses.expense_comment AS comment,
+            'Expense' AS type
+        FROM 
+            expenses
+            INNER JOIN expenses_category_assigned_to_users AS ec ON ec.id = expenses.expense_category_assigned_to_user_id
+            INNER JOIN payment_methods_assigned_to_users AS pm ON pm.id = expenses.payment_method_assigned_to_user_id
+        WHERE 
+            expenses.user_id = :user_id
+        UNION ALL
+        SELECT 
+            incomes.amount AS amount,
+            ic.name AS category,
+            '-' AS paymentMethod,
+            incomes.date_of_income AS date,
+            incomes.income_comment AS comment,
+            'Income' AS type
+        FROM 
+            incomes
+            INNER JOIN incomes_category_assigned_to_users AS ic ON ic.id = incomes.income_category_assigned_to_user_id
+        WHERE 
+            incomes.user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+
+        return $transactions;
+    }
+
     public function getIncomesFromPeriod(string $startDate, string $endDate)
     {
         $startDate = date('Y-m-d', strtotime($startDate));

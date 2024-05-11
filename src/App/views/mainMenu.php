@@ -2,39 +2,51 @@
 
 <body>
     <main>
-        <div class="d-flex justify-content-center formsBackground rounded mx-5 p-5 mt-5">
+        <div class="d-flex flex-column justify-content-center rounded mx-5 p-5 mt-5">
             <div class="text-center fs-5">
-                <h1> Welcome to Your Financial Management App, <span class="text-success" id="welcomeNameBox"></span></h1>
-                <p>
-                    We're here to help you take control of your finances. Below are some key options to get you started:
-                </p>
-
-                <h2>Add Income:</h2>
-                <p>
-                    Record your sources of income to keep track of your earnings.
-                </p>
-
-                <h2>Add Expense:</h2>
-                <p>
-                    Log your expenses to maintain a detailed record of your spending habits.
-                </p>
-
-                <h3>View Balance:</h3>
-                <p>
-                    Check your overall financial balance to stay informed about your financial health.
-                </p>
-
-                <h2>Change Settings:</h2>
-                <p>
-                    Adjust your account settings according to your preferences.
-                </p>
-
-                <h2>Logout:</h2>
-                <p>
-                    Logout of your account to ensure the security of your information.
-                </p>
+                <h1> Welcome to Your Financial Management App</h1>
+            </div>
+            <div class="text-center fs-5 mt-5">
+                <h2>Your total balance: </h2>
             </div>
 
+        </div>
+        <div class="d-flex flex-column justify-content-center rounded mx-5 p-5 mt-5">
+            <table class="table">
+                <thead class="">
+                    <tr>
+                        <th scope="col">
+                            Amount
+                        </th>
+                        <th scope="col">
+                            Category
+                        </th>
+                        <th scope="col">
+                            Payment method
+                        </th>
+                        <th scope="col">
+                            Date
+                        </th>
+                        <th scope="col">
+                            Comment
+                        </th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($transactions as $transaction) : ?>
+                        <tr class="<?php echo ($transaction['type'] === "Expense" ? 'table-danger' : 'table-success'); ?>">
+                            <td><?php echo ($transaction['type'] === "Expense" ? '-' : '') . $transaction['amount'] . " PLN"; ?></td>
+                            <td><?php echo $transaction['category']; ?></td>
+                            <td><?php echo $transaction['paymentMethod']; ?></td>
+                            <td><?php echo $transaction['date']; ?></td>
+                            <td><?php echo $transaction['comment']; ?></td>
+                            <td>Actions</td>
+                        <tr>
+                        <?php endforeach; ?>
+                </tbody>
+
+            </table>
         </div>
     </main>
 

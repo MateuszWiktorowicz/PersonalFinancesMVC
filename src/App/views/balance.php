@@ -6,7 +6,7 @@
             <form id="balancePeriodForm" method="post">
                 <div class="d-flex  gap-3  mb-3 p-3" id="periodContainer">
                     <div>
-                        <select class="form-select" aria-label="Default select example" id="balancePeriod">
+                        <select name='period' class="form-select" aria-label="Default select example" id="balancePeriod">
                             <option value="currentMonth" selected>Current month</option>
                             <option value="lastMonth">Last month</option>
                             <option value="currentYear">Current Year</option>

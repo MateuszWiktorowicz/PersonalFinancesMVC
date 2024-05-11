@@ -23,7 +23,12 @@ class MenuController
 
     public function menuView()
     {
-        echo $this->view->render("/mainMenu.php");
+        $transactions = $this->transactionService->getUserTransactions();
+
+
+        echo $this->view->render("/mainMenu.php", [
+            'transactions' => $transactions
+        ]);
     }
 
     public function incomeView()
@@ -47,14 +52,21 @@ class MenuController
 
     public function balanceView()
     {
+        if ($_POST['period']) {
+            dump(1);
+        }
+
+        $dates = getPeriodDates();
+
+
         echo $this->view->render(
             "/balance.php",
             [
-                'expenses' => $this->transactionService->getExpensesFromPeriod('2024-05-01', '2024-05-30'),
-                'incomes' => $this->transactionService->getIncomesFromPeriod('2024-05-01', '2024-05-30'),
-                'totalIncomes' => $this->transactionService->countIncomesFromPeriod('2024-05-01', '2024-05-30'),
-                'totalExpenses' => $this->transactionService->countExpensesFromPeriod('2024-05-01', '2024-05-30'),
-                'balance' => $this->transactionService->countBalanceFromPeriod('2024-05-01', '2024-05-30')
+                'expenses' => $this->transactionService->getExpensesFromPeriod($dates['startDate'], $dates['endDate']),
+                'incomes' => $this->transactionService->getIncomesFromPeriod($dates['startDate'], $dates['endDate']),
+                'totalIncomes' => $this->transactionService->countIncomesFromPeriod($dates['startDate'], $dates['endDate']),
+                'totalExpenses' => $this->transactionService->countExpensesFromPeriod($dates['startDate'], $dates['endDate']),
+                'balance' => $this->transactionService->countBalanceFromPeriod($dates['startDate'], $dates['endDate'])
             ]
         );
     }
@@ -62,5 +74,26 @@ class MenuController
     public function settingsView()
     {
         echo $this->view->render("/settings.php");
+    }
+
+    public function getBalance()
+    {
+        $period = $_POST['period'];
+
+
+        switch ($period) {
+            case 'currentMonth':
+                $this->balanceView();
+                break;
+            case "lastMonth":
+                $this->balanceView();
+                break;
+            case "currentYear":
+                $this->balanceView();
+                break;
+            case 'custom':
+
+                break;
+        }
     }
 }
