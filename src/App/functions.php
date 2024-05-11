@@ -23,3 +23,65 @@ function redirectTo(string $path)
     http_response_code(Http::REDIRECT_STATUS_CODE);
     exit;
 }
+
+function getCurrentMonthDates()
+{
+    $currentYear = date('Y');
+    $currentMonth = date('m');
+
+    $firstDayOfMonth = date('Y-m-01');
+
+    $lastDayOfMonth = date('Y-m-t', strtotime($firstDayOfMonth));
+
+    return [
+        'startDate' => "{$currentYear}-{$currentMonth}-{$firstDayOfMonth}",
+        'endDate' => "{$currentYear}-{$currentMonth}-{$lastDayOfMonth}"
+    ];
+}
+
+function getLastMonthDates()
+{
+    $currentYear = date('Y');
+    $currentMonth = date('m');
+
+    $previousMonth = ($currentMonth == 1) ? 12 : $currentMonth - 1;
+    $previousYear = ($currentMonth == 1) ? $currentYear - 1 : $currentYear;
+
+    $firstDayOfLastMonth = date('Y-m-01', strtotime("$previousYear-$previousMonth-01"));
+
+    $lastDayOfLastMonth = date('Y-m-t', strtotime($firstDayOfLastMonth));
+
+    return [
+        'startDate' => "{$previousYear}-{$previousMonth}-{$firstDayOfLastMonth}",
+        'endDate' => "{$previousYear}-{$previousMonth}-{$lastDayOfLastMonth}"
+    ];
+}
+
+function getCurrentYearDates()
+{
+    $currentYear = date('Y');
+
+    return [
+        'startDate' => "{$currentYear}-01-01",
+        'endDate' => "{$currentYear}-12-31"
+    ];
+}
+
+function getPeriodDates(mixed $period = 'currentMonth')
+{
+    $dates = [];
+    switch ($period) {
+        case 'currentMonth':
+            $dates = getCurrentMonthDates();
+            break;
+        case 'lastMonth':
+            $dates = getLastMonthDates();
+            break;
+        case 'currentYear':
+            $dates = getCurrentYearDates();
+            break;
+    }
+
+
+    return $dates;
+}
