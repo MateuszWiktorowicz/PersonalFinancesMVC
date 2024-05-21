@@ -14,11 +14,12 @@
         <div class="d-flex flex-column justify-content-center rounded mx-5 p-5 mt-5">
             <div class="d-flex flex-row-reverse justify-content-between gap-3 align-items-center mb-5">
                 <div class="d-flex align-items-center">
-                    <form id="balancePeriodForm" method="post">
+                    <form id="balancePeriodForm" method="get" action="./balance">
                         <div class="d-flex gap-3" id="periodContainer">
                             <div>
-                                <select name='period' class="form-select" aria-label="Default select example" id="balancePeriod">
-                                    <option value="currentMonth" selected>Current month</option>
+                                <select name='period' class="form-select" aria-label="Default select example" id="balancePeriod" required>
+                                    <option value="" disabled selected hidden>Select period</option>
+                                    <option value="currentMonth">Current month</option>
                                     <option value="lastMonth">Last month</option>
                                     <option value="currentYear">Current Year</option>
                                     <option value="custom">Custom</option>

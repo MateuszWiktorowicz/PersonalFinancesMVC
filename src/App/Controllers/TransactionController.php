@@ -18,14 +18,14 @@ class TransactionController
 
     public function createIncome()
     {
-        $this->validatorService->validateTranstaction($_POST);
+        $this->validatorService->validateIncomeTranstaction($_POST);
         $this->transactionService->createIncome($_POST);
         redirectTo('/mainMenu');
     }
 
     public function createExpense()
     {
-        $this->validatorService->validateTranstaction(($_POST));
+        $this->validatorService->validateExpenseTranstaction(($_POST));
         $this->transactionService->createExpense($_POST);
         redirectTo('/mainMenu');
     }

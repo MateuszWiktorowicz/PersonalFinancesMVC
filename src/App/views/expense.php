@@ -8,8 +8,13 @@
                     <form id="addExpenseForm" method="post">
                         <div class="mb-3">
                             <label for="amount" class="form-label">Expense amount:</label>
-                            <input type="number" step="0.01" min="0" class="form-control" name="amount" id="amount" aria-describedby="amountText" required>
+                            <input value="<?php echo escapeData($oldFormData['amount'] ?? ''); ?>" type="number" step="0.01" min="0" class="form-control" name="amount" id="amount" aria-describedby="amountText" required>
                             <div id="amountText" class="form-text">Enter the number to two decimal places.</div>
+                            <?php if (array_key_exists('amount', $errors)) : ?>
+                                <div class="mt-2 p-2 text-danger">
+                                    <?php echo escapeData($errors['amount'][0]); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="mb-3">
                             <label for="paymentMethod" class="form-label">Payment method</label>
@@ -22,11 +27,21 @@
                                         </label>
                                     </div>
                                 <?php endforeach; ?>
+                                <?php if (array_key_exists('paymentMethod', $errors)) : ?>
+                                    <div class="mt-2 p-2 text-danger">
+                                        <?php echo escapeData($errors['paymentMethod'][0]); ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Expense date:</label>
-                            <input type="text" class="datepicker form-control" name="date" id="date" required>
+                            <input value="<?php echo escapeData($oldFormData['date'] ?? ''); ?>" type="text" class="datepicker form-control" name="date" id="date" required>
+                            <?php if (array_key_exists('date', $errors)) : ?>
+                                <div class="mt-2 p-2 text-danger">
+                                    <?php echo escapeData($errors['date'][0]); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="mb-3">
                             <label for="category" class="form-label">Expense category:</label>
@@ -35,12 +50,22 @@
                                 <?php foreach ($expensesCategory as $category) : ?>
                                     <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
                                 <?php endforeach; ?>
+                                <?php if (array_key_exists('category', $errors)) : ?>
+                                    <div class="mt-2 p-2 text-danger">
+                                        <?php echo escapeData($errors['category'][0]); ?>
+                                    </div>
+                                <?php endif; ?>
 
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Comment:</label>
-                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                            <textarea value="<?php echo escapeData($oldFormData['description'] ?? ''); ?>" class="form-control" name="description" id="description" rows="3"></textarea>
+                            <?php if (array_key_exists('description', $errors)) : ?>
+                                <div class="mt-2 p-2 text-danger">
+                                    <?php echo escapeData($errors['description'][0]); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="mb-3 d-flex flex-column flex-sm-row gap-2 formButtons">
                             <button type="submit" class="btn btn-success" id="addExpenseSubmit">Add Expense</button>

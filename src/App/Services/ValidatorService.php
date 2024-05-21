@@ -14,7 +14,8 @@ use Framework\Rules\{
     MatchRule,
     LengthMaxRule,
     NumericRule,
-    DateFormatRule
+    DateFormatRule,
+    StartDateSmallerThenEndDateRule
 };
 
 class ValidatorService
@@ -33,6 +34,7 @@ class ValidatorService
         $this->validator->addRule('maxLength', new LengthMaxRule());
         $this->validator->addRule('numeric', new NumericRule());
         $this->validator->addRule('dateFormat', new DateFormatRule());
+        $this->validator->addRule('customDates', new StartDateSmallerThenEndDateRule());
     }
 
     public function validateRegister(array $dataForm)
@@ -52,12 +54,32 @@ class ValidatorService
         ]);
     }
 
-    public function validateTranstaction(array $dataForm)
+    public function validateIncomeTranstaction(array $dataForm)
     {
         $this->validator->validate($dataForm, [
             'description' => ['required', 'maxLength:255'],
             'amount' => ['required', 'numeric'],
-            'date' => ['required', 'dateFormat:Y-m-d']
+            'date' => ['required', 'dateFormat:Y-m-d'],
+            'category' => ['required']
+        ]);
+    }
+
+    public function validateExpenseTranstaction(array $dataForm)
+    {
+        $this->validator->validate($dataForm, [
+            'description' => ['required', 'maxLength:255'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'dateFormat:Y-m-d'],
+            'category' => ['required'],
+            'paymentMethod' => ['required']
+        ]);
+    }
+
+    public function validateCustomDates(array $dataForm)
+    {
+        $this->validator->validate($dataForm, [
+            'startDate' => ['required', 'customDates:endDate'],
+            'endDate' => ['required']
         ]);
     }
 }

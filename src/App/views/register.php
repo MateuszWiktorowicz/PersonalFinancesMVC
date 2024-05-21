@@ -39,7 +39,7 @@
                     </div>
                 <?php endif; ?>
             </div>
-            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Reset</button>
             <button type="submit" class="btn btn-primary" id="registerSubmit">Submit</button>
         </form>
     </div>
