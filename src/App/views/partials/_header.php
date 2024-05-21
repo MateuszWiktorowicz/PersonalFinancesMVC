@@ -19,14 +19,13 @@
                 PersonalFinances
             </a>
         </div>
-        <div class="d-flex justify-content-between align-items-center text-center gap-2 p-3 col-3">
+        <div class="d-flex align-items-center text-center justify-content-end gap-3 p-3 col-3">
             <?php if (!isset($_SESSION['user'])) : ?>
-                <div class="menuOptions col-6"><a href="/login">Sign In</a></div>
-                <div class="menuOptions col-6"><a href="/register">Sign Up</a></div>
+                <div><a class="text-reset text-decoration-none col-6" href="/login">Sign In</a></div>
+                <div><a class="text-reset text-decoration-none col-6" href="/register">Sign Up</a></div>
             <?php else : ?>
-                <div><a class="text-reset text-decoration-none menuOptions" href="/balance">Balance</a></div>
-                <div><a class="text-reset text-decoration-none menuOptions" href="/settings">Settings</a></div>
-                <div><a class="text-reset text-decoration-none menuOptions" href="/logout">Logout</a></div>
+                <div><a class="text-reset text-decoration-none fs-4" href="/settings">&#9881;</a></div>
+                <div><a class="text-reset text-decoration-none fs-4" href="/logout">&#10150;</a></div>
             <?php endif; ?>
         </div>
     </div>

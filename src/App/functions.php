@@ -26,16 +26,12 @@ function redirectTo(string $path)
 
 function getCurrentMonthDates()
 {
-    $currentYear = date('Y');
-    $currentMonth = date('m');
-
     $firstDayOfMonth = date('Y-m-01');
-
     $lastDayOfMonth = date('Y-m-t', strtotime($firstDayOfMonth));
 
     return [
-        'startDate' => "{$currentYear}-{$currentMonth}-{$firstDayOfMonth}",
-        'endDate' => "{$currentYear}-{$currentMonth}-{$lastDayOfMonth}"
+        'startDate' => "{$firstDayOfMonth}",
+        'endDate' => "{$lastDayOfMonth}"
     ];
 }
 
@@ -52,8 +48,8 @@ function getLastMonthDates()
     $lastDayOfLastMonth = date('Y-m-t', strtotime($firstDayOfLastMonth));
 
     return [
-        'startDate' => "{$previousYear}-{$previousMonth}-{$firstDayOfLastMonth}",
-        'endDate' => "{$previousYear}-{$previousMonth}-{$lastDayOfLastMonth}"
+        'startDate' => "{$firstDayOfLastMonth}",
+        'endDate' => "{$lastDayOfLastMonth}"
     ];
 }
 

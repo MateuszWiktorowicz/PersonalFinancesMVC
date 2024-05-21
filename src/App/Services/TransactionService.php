@@ -83,6 +83,50 @@ class TransactionService
         return $transactions;
     }
 
+    public function getUserTransactionsFromPeriod(string $startDate, string $endDate)
+    {
+        $transactions = $this->db->query(
+            "SELECT 
+            expenses.amount AS amount,
+            ec.name AS category,
+            pm.name AS paymentMethod,
+            expenses.date_of_expense AS date,
+            expenses.expense_comment AS comment,
+            'Expense' AS type
+        FROM 
+            expenses
+            INNER JOIN expenses_category_assigned_to_users AS ec ON ec.id = expenses.expense_category_assigned_to_user_id
+            INNER JOIN payment_methods_assigned_to_users AS pm ON pm.id = expenses.payment_method_assigned_to_user_id
+        WHERE 
+            expenses.user_id = :user_id
+            AND 
+            expenses.date_of_expense BETWEEN :start_date AND :end_date
+        UNION ALL
+        SELECT 
+            incomes.amount AS amount,
+            ic.name AS category,
+            '-' AS paymentMethod,
+            incomes.date_of_income AS date,
+            incomes.income_comment AS comment,
+            'Income' AS type
+        FROM 
+            incomes
+            INNER JOIN incomes_category_assigned_to_users AS ic ON ic.id = incomes.income_category_assigned_to_user_id
+        WHERE 
+            incomes.user_id = :user_id 
+            AND 
+            incomes.date_of_income BETWEEN :start_date AND :end_date
+            ORDER BY date DESC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $startDate,
+                'end_date' => $endDate
+            ]
+        )->findAll();
+
+        return $transactions;
+    }
+
     public function getUserTotalBalance()
     {
         $incomes = $this->db->query(
@@ -99,64 +143,6 @@ class TransactionService
         )->find();
 
         return $incomes['amount'] - $expenses['amount'];
-    }
-
-    public function getIncomesFromPeriod(string $startDate, string $endDate)
-    {
-        $startDate = date('Y-m-d', strtotime($startDate));
-        $endDate = date('Y-m-d', strtotime($endDate));
-
-        $incomesFromPeriod = $this->db->query(
-            "SELECT 
-        c.name,
-        i.date_of_income AS date,
-        i.amount,
-        i.income_comment AS comment
-    FROM
-        incomes AS i
-        INNER JOIN incomes_category_assigned_to_users AS c ON i.income_category_assigned_to_user_id = c.id
-    WHERE
-        i.date_of_income BETWEEN :startDate AND :endDate
-        AND
-        i.user_id = :userId
-    ORDER BY i.date_of_income",
-            [
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'userId' => $_SESSION['user']
-            ]
-        )->findAll();
-
-        return $incomesFromPeriod;
-    }
-
-    public function getExpensesFromPeriod(string $startDate, string $endDate)
-    {
-        $startDate = date('Y-m-d', strtotime($startDate));
-        $endDate = date('Y-m-d', strtotime($endDate));
-
-        $expensesFromPeriod = $this->db->query(
-            "SELECT 
-        c.name,
-        e.date_of_expense AS date,
-        e.amount,
-        e.expense_comment AS comment
-    FROM
-        expenses AS e
-        INNER JOIN expenses_category_assigned_to_users AS c ON e.expense_category_assigned_to_user_id = c.id
-    WHERE
-        e.date_of_expense BETWEEN :startDate AND :endDate
-        AND
-        e.user_id = :userId
-    ORDER BY e.date_of_expense",
-            [
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'userId' => $_SESSION['user']
-            ]
-        )->findAll();
-
-        return $expensesFromPeriod;
     }
 
     public function countExpensesFromPeriod(string $startDate, string $endDate)
@@ -201,5 +187,59 @@ class TransactionService
         $expenses = $this->countExpensesFromPeriod($startDate, $endDate);
 
         return $incomes['amount'] - $expenses['amount'];
+    }
+
+    public function getExpensesBalanceByCategoryNameFromPeriod(string $startDate, string $endDate)
+    {
+        $categoryBalance = $this->db->query(
+            "SELECT 
+            c.name AS 'name',
+            SUM(e.amount) AS 'value'
+        FROM 
+            expenses as e
+            INNER JOIN expenses_category_assigned_to_users as c ON c.id = e.expense_category_assigned_to_user_id
+        WHERE 
+            e.user_id = :user_id
+            AND
+            date_of_expense BETWEEN :start_date AND :end_date
+        GROUP BY 
+            e.expense_category_assigned_to_user_id
+        ORDER BY 
+            SUM(e.amount) DESC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $startDate,
+                'end_date' => $endDate
+            ]
+        )->findAll();
+
+        return $categoryBalance;
+    }
+
+    public function getIncomesBalanceByCategoryNameFromPeriod(string $startDate, string $endDate)
+    {
+        $categoryBalance = $this->db->query(
+            "SELECT 
+            c.name AS 'name', 
+            SUM(i.amount) AS 'value'
+        FROM 
+            incomes as i
+            INNER JOIN incomes_category_assigned_to_users as c ON c.id = i.income_category_assigned_to_user_id
+        WHERE 
+            i.user_id = :user_id
+            AND
+            date_of_income BETWEEN :start_date AND :end_date
+        GROUP BY 
+            i.income_category_assigned_to_user_id
+        ORDER BY 
+            SUM(i.amount) DESC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $startDate,
+                'end_date' => $endDate
+            ]
+        )->findAll();
+
+        return $categoryBalance;
     }
 }

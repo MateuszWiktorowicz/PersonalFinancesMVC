@@ -1,3 +1,8 @@
+body {
+background-color: #F1F1F1;
+}
+
+
 .circle {
     width: 30px;
     height: 30px;
@@ -13,4 +18,8 @@
     color: white;
     text-decoration: none;
     
+  }
+
+  .categoryBox {
+    background-color: #EADBC8;
   }

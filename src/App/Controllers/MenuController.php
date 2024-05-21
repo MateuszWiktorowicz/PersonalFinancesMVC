@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Framework\TemplateEngine;
-use App\Services\{UserService, TransactionService};
+use App\Services\{UserService, TransactionService, ValidatorService};
 
 
 class MenuController
@@ -15,7 +15,8 @@ class MenuController
     public function __construct(
         private TemplateEngine $view,
         private UserService $userService,
-        private TransactionService $transactionService
+        private TransactionService $transactionService,
+        private ValidatorService $validatorService
 
     ) {
         $this->userSettings = $this->userService->getUserSettings();
@@ -54,23 +55,28 @@ class MenuController
 
     public function balanceView()
     {
-        if ($_POST['period']) {
-            dump(1);
+        if (isset($_GET['period'])) {
+            $period = $_GET['period'];
+        } else {
+            $period = 'currentMonth';
         }
 
-        $dates = getPeriodDates();
+        if ((isset($_GET['startDate'])) && (isset($_GET['endDate']))) {
+            $this->validatorService->validateCustomDates($_GET);
+            echo $this->view->render(
+                "/balance.php",
+                $this->templateData($_GET['startDate'], $_GET['endDate'])
+            );
+        } elseif ($period !== 'custom') {
+            $dates = getPeriodDates($period);
 
-
-        echo $this->view->render(
-            "/balance.php",
-            [
-                'expenses' => $this->transactionService->getExpensesFromPeriod($dates['startDate'], $dates['endDate']),
-                'incomes' => $this->transactionService->getIncomesFromPeriod($dates['startDate'], $dates['endDate']),
-                'totalIncomes' => $this->transactionService->countIncomesFromPeriod($dates['startDate'], $dates['endDate']),
-                'totalExpenses' => $this->transactionService->countExpensesFromPeriod($dates['startDate'], $dates['endDate']),
-                'balance' => $this->transactionService->countBalanceFromPeriod($dates['startDate'], $dates['endDate'])
-            ]
-        );
+            echo $this->view->render(
+                "/balance.php",
+                $this->templateData($dates['startDate'], $dates['endDate'])
+            );
+        } else {
+            echo $this->view->render("/customBalance.php");
+        }
     }
 
     public function settingsView()
@@ -78,24 +84,17 @@ class MenuController
         echo $this->view->render("/settings.php");
     }
 
-    public function getBalance()
+    private function templateData(string $startDate, string $endDate)
     {
-        $period = $_POST['period'];
-
-
-        switch ($period) {
-            case 'currentMonth':
-                $this->balanceView();
-                break;
-            case "lastMonth":
-                $this->balanceView();
-                break;
-            case "currentYear":
-                $this->balanceView();
-                break;
-            case 'custom':
-
-                break;
-        }
+        return [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'transactions' => $this->transactionService->getUserTransactionsFromPeriod($startDate, $endDate),
+            'totalIncomes' => $this->transactionService->countIncomesFromPeriod($startDate, $endDate),
+            'totalExpenses' => $this->transactionService->countExpensesFromPeriod($startDate, $endDate),
+            'balance' => $this->transactionService->countBalanceFromPeriod($startDate, $endDate),
+            'incomesCategoryBalance' => $this->transactionService->getIncomesBalanceByCategoryNameFromPeriod($startDate, $endDate),
+            'expensesCategoryBalance' => $this->transactionService->getExpensesBalanceByCategoryNameFromPeriod($startDate, $endDate)
+        ];
     }
 }

@@ -21,7 +21,6 @@
                     </div>
                 <?php endif; ?>
             </div>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary" id="loginSubmit">Submit</button>
         </form>
     </div>
