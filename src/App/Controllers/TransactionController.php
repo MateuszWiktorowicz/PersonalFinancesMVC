@@ -76,4 +76,11 @@ class TransactionController
 
         redirectTo('/mainMenu');
     }
+
+    public function delete(array $params)
+    {
+        $this->transactionService->delete((int) $params['transaction'], $params['type']);
+
+        redirectTo('/');
+    }
 }

@@ -71,12 +71,25 @@
                                 <td><?php echo $transaction['date']; ?></td>
                                 <td><?php echo $transaction['comment']; ?></td>
                                 <td>
-                                    <i class="fa-solid fa-trash"></i>
-                                    <i class="fa-solid fa-file-pen"></i>
+                                    <div class="d-flex gap-3">
+                                        <div>
+                                            <a href="/transaction/<?php echo escapeData($transaction['type']) . '/' . escapeData($transaction['id']); ?>">
+                                                <i class="fa-solid fa-file-pen"></i>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <form action="/transaction/<?php echo escapeData($transaction['type']) . '/' . escapeData($transaction['id']) ?>" method="POST">
+                                                <input type="hidden" name="_METHOD" value="DELETE" />
+                                                <button type="submit" class="text-reset text-decoration-none">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
-                            <tr>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
 
             </table>
@@ -136,12 +149,25 @@
                                 <td><?php echo $transaction['date']; ?></td>
                                 <td><?php echo $transaction['comment']; ?></td>
                                 <td>
-                                    <i class="fa-solid fa-trash"></i>
-                                    <i class="fa-solid fa-file-pen"></i>
+                                    <div class="d-flex gap-3">
+                                        <div>
+                                            <a href="/transaction/<?php echo escapeData($transaction['type']) . '/' . escapeData($transaction['id']); ?>">
+                                                <i class="fa-solid fa-file-pen"></i>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <form action="/transaction/<?php echo escapeData($transaction['type']) . '/' . escapeData($transaction['id']) ?>" method="POST">
+                                                <input type="hidden" name="_METHOD" value="DELETE" />
+                                                <button type="submit" class="text-reset text-decoration-none">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
-                            <tr>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
             <div class="my-5">

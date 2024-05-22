@@ -89,6 +89,7 @@ class TransactionService
     {
         $transactions = $this->db->query(
             "SELECT 
+            expenses.id AS id,
             expenses.amount AS amount,
             ec.name AS category,
             pm.name AS paymentMethod,
@@ -105,6 +106,7 @@ class TransactionService
             expenses.date_of_expense BETWEEN :start_date AND :end_date
         UNION ALL
         SELECT 
+            incomes.id AS id,
             incomes.amount AS amount,
             ic.name AS category,
             '-' AS paymentMethod,
@@ -317,5 +319,26 @@ class TransactionService
                 'user_id' => $_SESSION['user']
             ]
         );
+    }
+
+    public function delete(int $id, string $type)
+    {
+        if ($type === "Income") {
+            $this->db->query(
+                "DELETE FROM incomes WHERE id = :id AND user_id = :user_id",
+                [
+                    'id' => $id,
+                    'user_id' => $_SESSION['user']
+                ]
+            );
+        } elseif ($type === "Expense") {
+            $this->db->query(
+                "DELETE FROM expenses WHERE id = :id AND user_id = :user_id",
+                [
+                    'id' => $id,
+                    'user_id' => $_SESSION['user']
+                ]
+            );
+        }
     }
 }
