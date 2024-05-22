@@ -23,4 +23,6 @@ function registerRoutes(App $app)
     $app->getMethod('/settings', [MenuController::class, 'settingsView'])->add(AuthRequiredMiddleware::class);
     $app->post('/income', [TransactionController::class, 'createIncome'])->add(AuthRequiredMiddleware::class);
     $app->post('/expense', [TransactionController::class, 'createExpense'])->add(AuthRequiredMiddleware::class);
+    $app->getMethod('/transaction/{type}/{transaction}', [TransactionController::class, "editView"])->add(AuthRequiredMiddleware::class);
+    $app->post('/transaction/{type}/{transaction}', [TransactionController::class, "edit"])->add(AuthRequiredMiddleware::class);
 }

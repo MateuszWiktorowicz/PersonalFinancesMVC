@@ -3,5 +3,5 @@ $(function () {
         format: 'yyyy-mm-dd',
         autoclose: true,
     });
-    $(".datepicker").datepicker('setDate', new Date());
+  //  $(".datepicker").datepicker('setDate', new Date());
 });
