@@ -10,7 +10,7 @@ use App\Services\{UserService, TransactionService, ValidatorService};
 
 class MenuController
 {
-    private array $userSettings = [];
+
 
     public function __construct(
         private TemplateEngine $view,
@@ -19,7 +19,6 @@ class MenuController
         private ValidatorService $validatorService
 
     ) {
-        $this->userSettings = $this->userService->getUserSettings();
     }
 
     public function menuView()
@@ -36,20 +35,23 @@ class MenuController
 
     public function incomeView()
     {
+        $userSettings = $this->userService->getUserSettings();
 
         echo $this->view->render(
             "/income.php",
             [
-                'incomesCategory' => $this->userSettings['incomesCategory']
+                'incomesCategory' => $userSettings['incomesCategory']
             ]
         );
     }
 
     public function expenseView()
     {
+        $userSettings = $this->userService->getUserSettings();
+
         echo $this->view->render("/expense.php", [
-            'expensesCategory' => $this->userSettings['expensesCategory'],
-            'paymenthMethods' => $this->userSettings['paymentMethods']
+            'expensesCategory' => $userSettings['expensesCategory'],
+            'paymenthMethods' => $userSettings['paymentMethods']
         ]);
     }
 
