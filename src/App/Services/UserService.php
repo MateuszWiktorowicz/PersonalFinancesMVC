@@ -64,11 +64,11 @@ class UserService
 
     public function getUserSettings()
     {
-        session_start();
+        session_regenerate_id();
 
         $user_id = $_SESSION['user'];
 
-        session_write_close();
+
 
         $expensesCategory = $this->db->query(
             "SELECT * FROM expenses_category_assigned_to_users WHERE user_id = :user_id",
