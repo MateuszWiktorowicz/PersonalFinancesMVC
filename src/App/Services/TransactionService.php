@@ -49,6 +49,7 @@ class TransactionService
     {
         $transactions = $this->db->query(
             "SELECT 
+            expenses.id AS id,
             expenses.amount AS amount,
             ec.name AS category,
             pm.name AS paymentMethod,
@@ -63,6 +64,7 @@ class TransactionService
             expenses.user_id = :user_id
         UNION ALL
         SELECT 
+            incomes.id AS id,
             incomes.amount AS amount,
             ic.name AS category,
             '-' AS paymentMethod,
@@ -241,5 +243,79 @@ class TransactionService
         )->findAll();
 
         return $categoryBalance;
+    }
+
+
+    public function getUserTransaction(string $id, string $type)
+    {
+        if ($type === 'Income') {
+            return $this->db->query(
+                "SELECT *, income_comment AS comment, 'Income' AS type, DATE_FORMAT(date_of_income, '%Y-%m-%d') as formatted_date 
+                FROM incomes
+            WHERE id = :id AND user_id = :user_id",
+                [
+                    'id' => $id,
+                    'user_id' => $_SESSION['user']
+                ]
+            )->find();
+        } elseif ($type === 'Expense') {
+            return $this->db->query(
+                "SELECT *, expense_comment AS comment, 'Expense' AS type, DATE_FORMAT(date_of_expense, '%Y-%m-%d') as formatted_date 
+                FROM expenses
+            WHERE id = :id AND user_id = :user_id",
+                [
+                    'id' => $id,
+                    'user_id' => $_SESSION['user']
+                ]
+            )->find();
+        }
+    }
+
+    public function updateIncome(array $formData, int $id)
+    {
+        $formattedDate = "{$formData['date']} 00:00:00";
+
+        $this->db->query(
+            "UPDATE incomes
+            SET income_category_assigned_to_user_id = :category,
+                amount = :amount,
+                date_of_income = :date,
+                income_comment = :comment
+            WHERE id = :id
+            AND user_id = :user_id",
+            [
+                'comment' => $formData['description'],
+                'amount' => $formData['amount'],
+                'date' => $formattedDate,
+                'category' => $formData['category'],
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        );
+    }
+
+    public function updateExpense(array $formData, int $id)
+    {
+        $formattedDate = "{$formData['date']} 00:00:00";
+
+        $this->db->query(
+            "UPDATE expenses
+            SET expense_category_assigned_to_user_id = :category,
+                payment_method_assigned_to_user_id = :method,
+                amount = :amount,
+                date_of_expense = :date,
+                expense_comment = :comment
+            WHERE id = :id
+            AND user_id = :user_id",
+            [
+                'comment' => $formData['description'],
+                'amount' => $formData['amount'],
+                'date' => $formattedDate,
+                'method' => $formData['paymentMethod'],
+                'category' => $formData['category'],
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        );
     }
 }
