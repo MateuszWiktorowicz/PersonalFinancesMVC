@@ -48,4 +48,47 @@ class SettingsController
             ]
         );
     }
+
+    public function addIncomeCategory()
+    {
+        $this->validatorService->validateNewCategory($_POST);
+        $this->userService->isCategoryAssigned($_POST['category']);
+        $this->userService->addIncomeCategory($_POST);
+
+        redirectTo('/incomeCategories');
+    }
+
+    public function deleteIncomeCategory(array $params)
+    {
+
+        $this->userService->deleteIncomeCategory((int) $params['category']);
+        redirectTo('/');
+    }
+
+    public function editIncomeCategoryView(array $params)
+    {
+        $id = $params['category'];
+        $userSettings = $this->userService->getUserSettings();
+        $incomesCategory = $userSettings['incomesCategory'];
+
+        $matchedCategory = array_values(array_filter($incomesCategory, function ($category) use ($id) {
+            return $category['id'] == $id;
+        }));
+
+        echo $this->view->render(
+            'settings/incomeCategoryEdit.php',
+            [
+                'category' => $matchedCategory
+            ]
+        );
+    }
+
+    public function editIncomeCategory(array $params)
+    {
+        $this->validatorService->validateNewCategory($_POST);
+        $this->userService->isCategoryAssigned($_POST['category']);
+        $this->userService->updateIncomeCategory($_POST, (int) $params['category']);
+
+        redirectTo('/incomeCategories');
+    }
 }

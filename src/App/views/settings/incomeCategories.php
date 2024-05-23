@@ -8,6 +8,25 @@
             </div>
         </section>
         <section class="sectionBox">
+            <form method="POST">
+                <div class="d-flex gap-3 align-items-end">
+                    <div class="col-4">
+                        <label for="category" class="form-label">Type new Income Category:</label>
+                        <input type="text" class="form-control" name="category" id="category" required>
+                        <?php if (array_key_exists('category', $errors)) : ?>
+                            <div class="mt-2 p-2 text-danger">
+                                <?php echo escapeData($errors['category'][0]); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+
+                </div>
+            </form>
+        </section>
+        <section class="sectionBox">
             <div>
                 <div class="d-flex bg-primary rounded p-2 text-white">
                     <div class="col-2">No.</div>
@@ -19,7 +38,21 @@
                     <div class="d-flex p-2 border-bottom">
                         <div class="col-2"><?php echo $i; ?></div>
                         <div class="col-5"><?php echo $category['name']; ?></div>
-                        <div class="col-5">Actions</div>
+                        <div class="col-5">
+                            <div>
+                                <a href="/incomeCategories/<?php echo escapeData($category['id']); ?>">
+                                    <i class="fa-solid fa-file-pen"></i>
+                                </a>
+                            </div>
+                            <div>
+                                <form action="/incomeCategories/<?php echo escapeData($category['id']) ?>" method="POST">
+                                    <input type="hidden" name="_METHOD" value="DELETE" />
+                                    <button type="submit" class="text-reset text-decoration-none">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <?php $i++; ?>
                 <?php endforeach; ?>

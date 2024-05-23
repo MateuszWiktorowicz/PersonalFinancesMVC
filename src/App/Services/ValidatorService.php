@@ -82,4 +82,14 @@ class ValidatorService
             'endDate' => ['required']
         ]);
     }
+
+    public function validateNewCategory(array $dataForm)
+    {
+        $this->validator->validate(
+            $dataForm,
+            [
+                'category' => ['required', 'maxLength:50']
+            ]
+        );
+    }
 }
