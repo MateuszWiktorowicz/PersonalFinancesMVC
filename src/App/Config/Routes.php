@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Config;
 
-use App\Controllers\{HomeController, AuthController, MenuController, TransactionController};
+use App\Controllers\{HomeController, AuthController, MenuController, SettingsController, TransactionController};
 use Framework\App;
 use App\Middleware\{AuthRequiredMiddleware, GuestOnlyMiddleware};
 
@@ -26,4 +26,7 @@ function registerRoutes(App $app)
     $app->getMethod('/transaction/{type}/{transaction}', [TransactionController::class, "editView"])->add(AuthRequiredMiddleware::class);
     $app->post('/transaction/{type}/{transaction}', [TransactionController::class, "edit"])->add(AuthRequiredMiddleware::class);
     $app->delete('/transaction/{type}/{transaction}', [TransactionController::class, "delete"])->add(AuthRequiredMiddleware::class);
+    $app->getMethod('/updateUser', [SettingsController::class, "updateUserView"])->add(AuthRequiredMiddleware::class);
+    $app->post('/updateUser', [SettingsController::class, "updateUser"])->add(AuthRequiredMiddleware::class);
+    $app->getMethod('/incomeCategories', [SettingsController::class, "editIncomeCategoriesView"])->add(AuthRequiredMiddleware::class);
 }

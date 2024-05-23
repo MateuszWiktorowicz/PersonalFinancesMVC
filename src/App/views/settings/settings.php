@@ -10,10 +10,10 @@
         <section class="sectionBox">
             <div class="d-flex flex-column align-items-center gap-4">
                 <div class="border-bottom border-black w-100 text-center">
-                    <h2>Edit profile</h2>
+                    <h2><a class="text-reset text-decoration-none" href="/updateUser">Edit profile</a></h2>
                 </div>
                 <div class="border-bottom border-black w-100 text-center">
-                    <h2>Edit income categories</h2>
+                    <h2><a class="text-reset text-decoration-none" href="/incomeCategories">Edit income categories</a></h2>
                 </div>
                 <div class="border-bottom border-black w-100 text-center">
                     <h2>Edit expense categories</h2>

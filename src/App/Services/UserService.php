@@ -27,6 +27,21 @@ class UserService
         }
     }
 
+    public function isEmailTakenWhenUpdateUser(string $email)
+    {
+        $emailCount = $this->db->query(
+            "SELECT COUNT(*) FROM users WHERE email = :email AND id != :id",
+            [
+                'email' => $email,
+                'id' => $_SESSION['user']
+            ]
+        )->count();
+
+        if ($emailCount > 0) {
+            throw new ValidationException(['email' => ["Email taken"]]);
+        }
+    }
+
     public function create(array $formData)
     {
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT, ['cost' => 12]);
@@ -135,5 +150,35 @@ class UserService
             $params['secure'],
             $params['httponly']
         );
+    }
+
+    public function updateUser(array $formData, int $id)
+    {
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+        $this->db->query(
+            "UPDATE users
+            SET
+            username = :name,
+            email = :email,
+            password = :password
+            WHERE
+            id = :id",
+            [
+                'name' => $formData['name'],
+                'email' => $formData['email'],
+                'password' => $password,
+                'id' => $id
+            ]
+        );
+    }
+
+    public function getUser()
+    {
+        return $this->db->query(
+            "SELECT id, username, email FROM users WHERE id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        )->find();
     }
 }
