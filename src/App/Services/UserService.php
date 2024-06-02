@@ -182,7 +182,7 @@ class UserService
         )->find();
     }
 
-    public function isCategoryAssigned(string $categoryName)
+    public function isIncomeCategoryAssigned(string $categoryName)
     {
         $categoryCount = $this->db->query(
             "SELECT COUNT(*) AS count FROM incomes_category_assigned_to_users WHERE user_id = :id AND UPPER(name) = UPPER(:categoryName)",
@@ -235,5 +235,59 @@ class UserService
                 'name' => $formData['category']
             ]
         );
+    }
+
+    public function addExpenseCategory(array $dataForm)
+    {
+        $this->db->query(
+            "INSERT INTO expenses_category_assigned_to_users(user_id, name) VALUES(:id, :categoryName);",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $dataForm['category']
+            ]
+        );
+    }
+    public function deleteExpenseCategory(int $id)
+    {
+        $this->db->query(
+            "DELETE FROM expenses_category_assigned_to_users WHERE id = :id AND user_id = :user_id",
+            [
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        );
+    }
+
+    public function updateExpenseCategory(array $formData, int $id)
+    {
+        $this->db->query(
+            "UPDATE expenses_category_assigned_to_users
+            SET
+            name = :name
+            WHERE
+            user_id = :user_id
+            AND
+            id = :id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $id,
+                'name' => $formData['category']
+            ]
+        );
+    }
+
+    public function isExpenseCategoryAssigned(string $categoryName)
+    {
+        $categoryCount = $this->db->query(
+            "SELECT COUNT(*) AS count FROM expenses_category_assigned_to_users WHERE user_id = :id AND UPPER(name) = UPPER(:categoryName)",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $categoryName
+            ]
+        )->count();
+
+        if ($categoryCount > 0) {
+            throw new ValidationException(['category' => ['Category already assigned to Your account']]);
+        }
     }
 }

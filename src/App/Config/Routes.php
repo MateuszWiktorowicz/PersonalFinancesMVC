@@ -33,5 +33,14 @@ function registerRoutes(App $app)
     $app->delete('/incomeCategories/{category}', [SettingsController::class, "deleteIncomeCategory"])->add(AuthRequiredMiddleware::class);
     $app->getMethod('/incomeCategories/{category}', [SettingsController::class, 'editIncomeCategoryView'])->add(AuthRequiredMiddleware::class);
     $app->post('/incomeCategories/{category}', [SettingsController::class, "editIncomeCategory"])->add(AuthRequiredMiddleware::class);
-    $app->getMethod('/{category}/transactions', [SettingsController::class, "viewCategoryIncomeTransactions"])->add(AuthRequiredMiddleware::class);
+    $app->getMethod('/{category}/transactions/{type}', [SettingsController::class, "viewCategoryIncomeTransactions"])->add(AuthRequiredMiddleware::class);
+    $app->getMethod('/expenseCategories', [SettingsController::class, "editExpenseCategoriesView"])->add(AuthRequiredMiddleware::class);
+    $app->post('/expenseCategories', [SettingsController::class, "addExpenseCategory"])->add(AuthRequiredMiddleware::class);
+    $app->getMethod('/expenseCategories/{category}', [
+        SettingsController::class,
+        'editExpenseCategoryView'
+    ])->add(AuthRequiredMiddleware::class);
+    $app->delete('/expenseCategories/{category}', [SettingsController::class, "deleteExpenseCategory"])->add(AuthRequiredMiddleware::class);
+    $app->post('/expenseCategories/{category}', [SettingsController::class, "editExpenseCategory"])->add(AuthRequiredMiddleware::class);
+    $app->getMethod('/expense/{category}/transactions', [SettingsController::class, "viewCategoryExpenseTransactions"])->add(AuthRequiredMiddleware::class);
 }

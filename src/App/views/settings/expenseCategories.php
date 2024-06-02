@@ -4,14 +4,14 @@
     <main>
         <section class="sectionBox">
             <div class="d-flex justify-content-center">
-                <h1>Income categories:</h1>
+                <h1>Expense categories:</h1>
             </div>
         </section>
         <section class="sectionBox">
             <form method="POST">
                 <div class="d-flex gap-3 align-items-end">
                     <div class="col-4">
-                        <label for="category" class="form-label">Type new Income Category:</label>
+                        <label for="category" class="form-label">Type new Expense Category:</label>
                         <input type="text" class="form-control" name="category" id="category" required>
                         <?php if (array_key_exists('category', $errors)) : ?>
                             <div class="mt-2 p-2 text-danger">
@@ -43,12 +43,12 @@
                         <div class=" col-3">
                             <div class="d-flex gap-3">
                                 <div>
-                                    <a href="/incomeCategories/<?php echo escapeData($category['id']); ?>">
+                                    <a href="/expenseCategories/<?php echo escapeData($category['id']); ?>">
                                         <i class="fa-solid fa-file-pen"></i>
                                     </a>
                                 </div>
                                 <div>
-                                    <form action="/incomeCategories/<?php echo escapeData($category['id']) ?>" method="POST">
+                                    <form action="/expenseCategories/<?php echo escapeData($category['id']) ?>" method="POST">
                                         <input type="hidden" name="_METHOD" value="DELETE" />
                                         <button type="submit" class="text-reset text-decoration-none" <?php echo $category['transactionNo'] !== 0 ? 'disabled' : ''; ?>>
                                             <i class="fa-solid fa-trash"></i>
@@ -56,7 +56,7 @@
                                     </form>
                                 </div>
                                 <div>
-                                    <?php echo $category['transactionNo'] !== 0 ? '<a href="/' . $category['id'] . '/transactions' . $category['type'] . '"><i class="fa-solid fa-money-bill-transfer fs-4"></i></a>' : ''; ?>
+                                    <?php echo $category['transactionNo'] !== 0 ? '<a href="/expense/' . $category['id'] . '/transactions"><i class="fa-solid fa-money-bill-transfer fs-4"></i></a>' : ''; ?>
 
                                 </div>
                             </div>

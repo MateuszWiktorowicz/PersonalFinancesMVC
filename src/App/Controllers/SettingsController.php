@@ -64,7 +64,7 @@ class SettingsController
     public function addIncomeCategory()
     {
         $this->validatorService->validateNewCategory($_POST);
-        $this->userService->isCategoryAssigned($_POST['category']);
+        $this->userService->isIncomeCategoryAssigned($_POST['category']);
         $this->userService->addIncomeCategory($_POST);
 
         redirectTo('/incomeCategories');
@@ -74,7 +74,7 @@ class SettingsController
     {
 
         $this->userService->deleteIncomeCategory((int) $params['category']);
-        redirectTo('/');
+        redirectTo('/incomeCategories');
     }
 
     public function editIncomeCategoryView(array $params)
@@ -100,7 +100,7 @@ class SettingsController
     public function editIncomeCategory(array $params)
     {
         $this->validatorService->validateNewCategory($_POST);
-        $this->userService->isCategoryAssigned($_POST['category']);
+        $this->userService->isIncomeCategoryAssigned($_POST['category']);
         $this->userService->updateIncomeCategory($_POST, (int) $params['category']);
 
         redirectTo('/incomeCategories');
@@ -114,6 +114,87 @@ class SettingsController
             "/settings/incomesByCategory.php",
             [
                 'transactions' => $transactions
+
+            ]
+        );
+    }
+
+    public function editExpenseCategoriesView()
+    {
+        $userSettings = $this->userService->getUserSettings();
+
+        $categories = [];
+
+        foreach ($userSettings['expensesCategory'] as $category) {
+            $transactionsNo = $this->transactionService->countExpensesByCategory((int) $category['id']);
+
+            $category['transactionNo'] = $transactionsNo;
+            $categories[] = $category;
+        }
+
+
+        echo $this->view->render(
+            'settings/expenseCategories.php',
+            [
+                'categories' => $categories
+            ]
+        );
+    }
+
+    public function addExpenseCategory()
+    {
+        $this->validatorService->validateNewCategory($_POST);
+        $this->userService->isExpenseCategoryAssigned($_POST['category']);
+        $this->userService->addExpenseCategory($_POST);
+
+        redirectTo('/expenseCategories');
+    }
+
+    public function editExpenseCategoryView(array $params)
+    {
+        $id = $params['category'];
+        $userSettings = $this->userService->getUserSettings();
+        $incomesCategory = $userSettings['expensesCategory'];
+
+        $matchedCategory = array_values(array_filter($incomesCategory, function ($category) use ($id) {
+            return $category['id'] == $id;
+        }));
+
+
+
+        echo $this->view->render(
+            'settings/expenseCategoryEdit.php',
+            [
+                'category' => $matchedCategory
+            ]
+        );
+    }
+
+    public function editExpenseCategory(array $params)
+    {
+        $this->validatorService->validateNewCategory($_POST);
+        $this->userService->isExpenseCategoryAssigned($_POST['category']);
+        $this->userService->updateExpenseCategory($_POST, (int) $params['category']);
+
+        redirectTo('/expenseCategories');
+    }
+
+    public function deleteExpenseCategory(array $params)
+    {
+
+        $this->userService->deleteExpenseCategory((int) $params['category']);
+        redirectTo('/expenseCategories');
+    }
+
+    public function viewCategoryExpenseTransactions(array $params)
+    {
+        $transactions = $this->transactionService->selectExpensesByCategory((int) $params['category']);
+
+        echo $this->view->render(
+            "/settings/expensesByCategory.php",
+            [
+                'transactions' => $transactions
+
             ]
         );
     }
