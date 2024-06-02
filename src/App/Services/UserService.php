@@ -27,6 +27,21 @@ class UserService
         }
     }
 
+    public function isEmailTakenWhenUpdateUser(string $email)
+    {
+        $emailCount = $this->db->query(
+            "SELECT COUNT(*) FROM users WHERE email = :email AND id != :id",
+            [
+                'email' => $email,
+                'id' => $_SESSION['user']
+            ]
+        )->count();
+
+        if ($emailCount > 0) {
+            throw new ValidationException(['email' => ["Email taken"]]);
+        }
+    }
+
     public function create(array $formData)
     {
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT, ['cost' => 12]);
@@ -134,6 +149,201 @@ class UserService
             $params['domain'],
             $params['secure'],
             $params['httponly']
+        );
+    }
+
+    public function updateUser(array $formData, int $id)
+    {
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+        $this->db->query(
+            "UPDATE users
+            SET
+            username = :name,
+            email = :email,
+            password = :password
+            WHERE
+            id = :id",
+            [
+                'name' => $formData['name'],
+                'email' => $formData['email'],
+                'password' => $password,
+                'id' => $id
+            ]
+        );
+    }
+
+    public function getUser()
+    {
+        return $this->db->query(
+            "SELECT id, username, email FROM users WHERE id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        )->find();
+    }
+
+    public function isIncomeCategoryAssigned(string $categoryName)
+    {
+        $categoryCount = $this->db->query(
+            "SELECT COUNT(*) AS count FROM incomes_category_assigned_to_users WHERE user_id = :id AND UPPER(name) = UPPER(:categoryName)",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $categoryName
+            ]
+        )->count();
+
+        if ($categoryCount > 0) {
+            throw new ValidationException(['category' => ['Category already assigned to Your account']]);
+        }
+    }
+
+    public function isPaymentMethodAssigned(string $categoryName)
+    {
+        $categoryCount = $this->db->query(
+            "SELECT COUNT(*) AS count FROM payment_methods_assigned_to_users WHERE user_id = :id AND UPPER(name) = UPPER(:categoryName)",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $categoryName
+            ]
+        )->count();
+
+        if ($categoryCount > 0) {
+            throw new ValidationException(['category' => ['Category already assigned to Your account']]);
+        }
+    }
+
+    public function addIncomeCategory(array $dataForm)
+    {
+        $this->db->query(
+            "INSERT INTO incomes_category_assigned_to_users(user_id, name) VALUES(:id, :categoryName);",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $dataForm['category']
+            ]
+        );
+    }
+
+    public function deleteIncomeCategory(int $id)
+    {
+        $this->db->query(
+            "DELETE FROM incomes_category_assigned_to_users WHERE id = :id AND user_id = :user_id",
+            [
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        );
+    }
+
+    public function updateIncomeCategory(array $formData, int $id)
+    {
+        $this->db->query(
+            "UPDATE incomes_category_assigned_to_users
+            SET
+            name = :name
+            WHERE
+            user_id = :user_id
+            AND
+            id = :id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $id,
+                'name' => $formData['category']
+            ]
+        );
+    }
+
+    public function addExpenseCategory(array $dataForm)
+    {
+        $this->db->query(
+            "INSERT INTO expenses_category_assigned_to_users(user_id, name) VALUES(:id, :categoryName);",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $dataForm['category']
+            ]
+        );
+    }
+
+    public function deleteExpenseCategory(int $id)
+    {
+        $this->db->query(
+            "DELETE FROM expenses_category_assigned_to_users WHERE id = :id AND user_id = :user_id",
+            [
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        );
+    }
+
+    public function updateExpenseCategory(array $formData, int $id)
+    {
+        $this->db->query(
+            "UPDATE expenses_category_assigned_to_users
+            SET
+            name = :name
+            WHERE
+            user_id = :user_id
+            AND
+            id = :id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $id,
+                'name' => $formData['category']
+            ]
+        );
+    }
+
+    public function isExpenseCategoryAssigned(string $categoryName)
+    {
+        $categoryCount = $this->db->query(
+            "SELECT COUNT(*) AS count FROM expenses_category_assigned_to_users WHERE user_id = :id AND UPPER(name) = UPPER(:categoryName)",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $categoryName
+            ]
+        )->count();
+
+        if ($categoryCount > 0) {
+            throw new ValidationException(['category' => ['Payment method already assigned to Your account']]);
+        }
+    }
+
+    public function addPaymentMethod(array $dataForm)
+    {
+        $this->db->query(
+            "INSERT INTO payment_methods_assigned_to_users(user_id, name) VALUES(:id, :categoryName);",
+            [
+                'id' => $_SESSION['user'],
+                'categoryName' => $dataForm['category']
+            ]
+        );
+    }
+
+    public function deletePaymentMethods(int $id)
+    {
+        $this->db->query(
+            "DELETE FROM payment_methods_assigned_to_users WHERE id = :id AND user_id = :user_id",
+            [
+                'id' => $id,
+                'user_id' => $_SESSION['user']
+            ]
+        );
+    }
+
+    public function updatePaymentMethod(array $formData, int $id)
+    {
+        $this->db->query(
+            "UPDATE payment_methods_assigned_to_users
+            SET
+            name = :name
+            WHERE
+            user_id = :user_id
+            AND
+            id = :id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $id,
+                'name' => $formData['category']
+            ]
         );
     }
 }

@@ -341,4 +341,104 @@ class TransactionService
             );
         }
     }
+
+    public function selectIncomesByCategory(int $categoryId)
+    {
+        return $this->db->query(
+            " SELECT 
+            incomes.id AS id,
+            incomes.amount AS amount,
+            ic.name AS category,
+            '-' AS paymentMethod,
+            incomes.date_of_income AS date,
+            incomes.income_comment AS comment,
+            'Income' AS type
+        FROM 
+            incomes
+            INNER JOIN incomes_category_assigned_to_users AS ic ON ic.id = incomes.income_category_assigned_to_user_id 
+            WHERE income_category_assigned_to_user_id = :id AND incomes.user_id = :user_id",
+            [
+                'id' => $categoryId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+    }
+
+    public function selectExpensesByCategory(int $categoryId)
+    {
+        return $this->db->query(
+            " SELECT 
+            expenses.id AS id,
+            expenses.amount AS amount,
+            ec.name AS category,
+            '-' AS paymentMethod,
+            expenses.date_of_expense AS date,
+            expenses.expense_comment AS comment,
+            'Expense' AS type
+        FROM 
+        expenses
+            INNER JOIN expenses_category_assigned_to_users AS ec ON ec.id = expenses.expense_category_assigned_to_user_id 
+            WHERE expense_category_assigned_to_user_id = :id AND expenses.user_id = :user_id",
+            [
+                'id' => $categoryId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+    }
+
+    public function countIncomesByCategory(int $categoryId)
+    {
+        return $this->db->query(
+            "SELECT COUNT(*) FROM incomes WHERE income_category_assigned_to_user_id = :id AND user_id = :user_id",
+            [
+                'id' => $categoryId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->count();
+    }
+
+    public function countExpensesByCategory(int $categoryId)
+    {
+        return $this->db->query(
+            "SELECT COUNT(*) FROM expenses WHERE expense_category_assigned_to_user_id = :id AND user_id = :user_id",
+            [
+                'id' => $categoryId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->count();
+    }
+
+
+    public function countExpensesByPaymentMethod(int $methodId)
+    {
+        return $this->db->query(
+            "SELECT COUNT(*) FROM expenses WHERE payment_method_assigned_to_user_id = :id AND user_id = :user_id",
+            [
+                'id' => $methodId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->count();
+    }
+
+    public function selectExpensesByPaymentMethods(int $categoryId)
+    {
+        return $this->db->query(
+            " SELECT 
+            expenses.id AS id,
+            expenses.amount AS amount,
+            pm.name AS category,
+            '-' AS paymentMethod,
+            expenses.date_of_expense AS date,
+            expenses.expense_comment AS comment,
+            'Expense' AS type
+        FROM 
+        expenses
+            INNER JOIN payment_methods_assigned_to_users AS pm ON pm.id = expenses.payment_method_assigned_to_user_id 
+            WHERE payment_method_assigned_to_user_id = :id AND expenses.user_id = :user_id",
+            [
+                'id' => $categoryId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+    }
 }

@@ -83,7 +83,7 @@ class MenuController
 
     public function settingsView()
     {
-        echo $this->view->render("/settings.php");
+        echo $this->view->render("/settings/settings.php");
     }
 
     private function templateData(string $startDate, string $endDate)

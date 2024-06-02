@@ -2,11 +2,11 @@
 
 <body>
     <div class="mt-5 d-flex justify-content-center">
-        <div class="formsBackground p-4">
-            <form id="registerForm" method="post">
+        <div class="formsBackground w-50 p-4">
+            <form method="post">
                 <div class="mb-3">
                     <label for="registerInputName" class="form-label">Name</label>
-                    <input value="<?php echo escapeData($oldFormData['name'] ?? ''); ?>" type="text" class="form-control" name="name" id="registerInputName" required>
+                    <input value="<?php echo escapeData($user['username'] ?? ''); ?>" type="text" class="form-control" name="name" id="registerInputName" required>
                     <?php if (array_key_exists('name', $errors)) : ?>
                         <div class="mt-2 p-2 text-danger">
                             <?php echo escapeData($errors['name'][0]); ?>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input value="<?php echo escapeData($oldFormData['email'] ?? ''); ?>" type="email" class="form-control registerEmail" name="email" id="registerInputEmail" required />
+                    <input value="<?php echo escapeData($user['email'] ?? ''); ?>" type="email" class="form-control registerEmail" name="email" id="registerInputEmail" required />
                     <?php if (array_key_exists('email', $errors)) : ?>
                         <div class="mt-2 p-2 text-danger">
                             <?php echo escapeData($errors['email'][0]); ?>

@@ -74,7 +74,8 @@ class TransactionController
             $this->transactionService->updateExpense($_POST, $transaction['id']);
         }
 
-        redirectTo('/mainMenu');
+
+        redirectTo($_SERVER['HTTP_REFERER']);
     }
 
     public function delete(array $params)
