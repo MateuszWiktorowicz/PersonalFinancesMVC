@@ -154,9 +154,9 @@ class SettingsController
     {
         $id = $params['category'];
         $userSettings = $this->userService->getUserSettings();
-        $incomesCategory = $userSettings['expensesCategory'];
+        $expensesCategory = $userSettings['expensesCategory'];
 
-        $matchedCategory = array_values(array_filter($incomesCategory, function ($category) use ($id) {
+        $matchedCategory = array_values(array_filter($expensesCategory, function ($category) use ($id) {
             return $category['id'] == $id;
         }));
 
@@ -192,6 +192,85 @@ class SettingsController
 
         echo $this->view->render(
             "/settings/expensesByCategory.php",
+            [
+                'transactions' => $transactions
+
+            ]
+        );
+    }
+
+    public function editPaymentMethodsView()
+    {
+        $userSettings = $this->userService->getUserSettings();
+
+        $categories = [];
+
+        foreach ($userSettings['paymentMethods'] as $category) {
+            $transactionsNo = $this->transactionService->countExpensesByPaymentMethod((int) $category['id']);
+
+            $category['transactionNo'] = $transactionsNo;
+            $categories[] = $category;
+        }
+
+
+        echo $this->view->render(
+            'settings/paymentMethods.php',
+            [
+                'categories' => $categories
+            ]
+        );
+    }
+
+    public function addPaymentMethod()
+    {
+        $this->validatorService->validateNewCategory($_POST);
+        $this->userService->isPaymentMethodAssigned($_POST['category']);
+        $this->userService->addPaymentMethod($_POST);
+
+        redirectTo('/paymentMethods');
+    }
+
+    public function deletePaymentMethod(array $params)
+    {
+
+        $this->userService->deletePaymentMethods((int) $params['category']);
+        redirectTo('/paymentMethods');
+    }
+
+    public function editPaymentMethodView(array $params)
+    {
+        $id = $params['category'];
+        $userSettings = $this->userService->getUserSettings();
+        $paymentMethods = $userSettings['paymentMethods'];
+
+        $matchedCategory = array_values(array_filter($paymentMethods, function ($category) use ($id) {
+            return $category['id'] == $id;
+        }));
+
+
+
+        echo $this->view->render(
+            'settings/paymentMethodEdit.php',
+            [
+                'category' => $matchedCategory
+            ]
+        );
+    }
+    public function editPaymentMethod(array $params)
+    {
+        $this->validatorService->validateNewCategory($_POST);
+        $this->userService->isPaymentMethodAssigned($_POST['category']);
+        $this->userService->updatePaymentMethod($_POST, (int) $params['category']);
+
+        redirectTo('/paymentMethods');
+    }
+
+    public function viewExpensesByPaymentMethod(array $params)
+    {
+        $transactions = $this->transactionService->selectExpensesByPaymentMethods((int) $params['category']);
+
+        echo $this->view->render(
+            "/settings/expensesByPaymentMethod.php",
             [
                 'transactions' => $transactions
 

@@ -19,7 +19,7 @@
                     <h2><a class="text-reset text-decoration-none" href="/expenseCategories">Edit expense categories</a></h2>
                 </div>
                 <div class="border-bottom border-black w-100 text-center">
-                    <h2>Edit payment methods</h2>
+                    <h2><a class="text-reset text-decoration-none" href="/paymentMethods">Edit payment methods</a></h2>
                 </div>
 
             </div>
