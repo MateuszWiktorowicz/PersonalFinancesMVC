@@ -341,4 +341,37 @@ class TransactionService
             );
         }
     }
+
+    public function selectIncomesByCategory(int $categoryId)
+    {
+        return $this->db->query(
+            " SELECT 
+            incomes.id AS id,
+            incomes.amount AS amount,
+            ic.name AS category,
+            '-' AS paymentMethod,
+            incomes.date_of_income AS date,
+            incomes.income_comment AS comment,
+            'Income' AS type
+        FROM 
+            incomes
+            INNER JOIN incomes_category_assigned_to_users AS ic ON ic.id = incomes.income_category_assigned_to_user_id 
+            WHERE income_category_assigned_to_user_id = :id AND incomes.user_id = :user_id",
+            [
+                'id' => $categoryId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+    }
+
+    public function countIncomesByCategory(int $categoryId)
+    {
+        return $this->db->query(
+            "SELECT * FROM incomes WHERE income_category_assigned_to_user_id = :id AND user_id = :user_id",
+            [
+                'id' => $categoryId,
+                'user_id' => $_SESSION['user']
+            ]
+        )->count();
+    }
 }

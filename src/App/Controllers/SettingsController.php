@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Services\{UserService, ValidatorService};
+use App\Services\{TransactionService, UserService, ValidatorService};
 use Framework\TemplateEngine;
 
 class SettingsController
@@ -12,7 +12,8 @@ class SettingsController
     public function __construct(
         private TemplateEngine $view,
         private UserService $userService,
-        private ValidatorService $validatorService
+        private ValidatorService $validatorService,
+        private TransactionService $transactionService
     ) {
     }
 
@@ -41,10 +42,21 @@ class SettingsController
     public function editIncomeCategoriesView()
     {
         $userSettings = $this->userService->getUserSettings();
+
+        $categories = [];
+
+        foreach ($userSettings['incomesCategory'] as $category) {
+            $transactionsNo = $this->transactionService->countIncomesByCategory((int) $category['id']);
+
+            $category['transactionNo'] = $transactionsNo;
+            $categories[] = $category;
+        }
+
+
         echo $this->view->render(
             'settings/incomeCategories.php',
             [
-                'categories' => $userSettings['incomesCategory']
+                'categories' => $categories
             ]
         );
     }
@@ -75,6 +87,8 @@ class SettingsController
             return $category['id'] == $id;
         }));
 
+
+
         echo $this->view->render(
             'settings/incomeCategoryEdit.php',
             [
@@ -90,5 +104,17 @@ class SettingsController
         $this->userService->updateIncomeCategory($_POST, (int) $params['category']);
 
         redirectTo('/incomeCategories');
+    }
+
+    public function viewCategoryIncomeTransactions(array $params)
+    {
+        $transactions = $this->transactionService->selectIncomesByCategory((int) $params['category']);
+
+        echo $this->view->render(
+            "/settings/incomesByCategory.php",
+            [
+                'transactions' => $transactions
+            ]
+        );
     }
 }

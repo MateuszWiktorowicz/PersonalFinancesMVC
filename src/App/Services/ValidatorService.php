@@ -57,7 +57,7 @@ class ValidatorService
     public function validateIncomeTranstaction(array $dataForm)
     {
         $this->validator->validate($dataForm, [
-            'description' => ['required', 'maxLength:255'],
+            'description' => ['maxLength:255'],
             'amount' => ['required', 'numeric'],
             'date' => ['required', 'dateFormat:Y-m-d'],
             'category' => ['required']
@@ -67,7 +67,7 @@ class ValidatorService
     public function validateExpenseTranstaction(array $dataForm)
     {
         $this->validator->validate($dataForm, [
-            'description' => ['required', 'maxLength:255'],
+            'description' => ['maxLength:255'],
             'amount' => ['required', 'numeric'],
             'date' => ['required', 'dateFormat:Y-m-d'],
             'category' => ['required'],
