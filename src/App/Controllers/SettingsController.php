@@ -34,7 +34,7 @@ class SettingsController
     {
         $this->validatorService->validateRegister($_POST);
         $this->userService->isEmailTakenWhenUpdateUser($_POST['email']);
-        $this->userService->updateUser($_POST, $_SESSION['user']);
+        $this->userService->updateUser($_POST, (int) $_SESSION['user']);
 
         redirectTo('/logout');
     }

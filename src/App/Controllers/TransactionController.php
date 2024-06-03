@@ -59,7 +59,7 @@ class TransactionController
         $transaction = $this->transactionService->getUserTransaction($params['transaction'], $params['type']);
 
         if (!$transaction) {
-            redirectTo('/');
+            redirectTo('mainMenu');
         }
 
         if ($transaction['type'] === "Income") {
@@ -75,7 +75,7 @@ class TransactionController
         }
 
 
-        redirectTo($_SERVER['HTTP_REFERER']);
+        redirectTo('mainMenu');
     }
 
     public function delete(array $params)
