@@ -3,7 +3,7 @@
 <body>
     <main class="mx-3">
         <section class="sectionBox">
-            <div class="d-flex flex-row-reverse mt-5 justify-content-between">
+            <div class="d-flex flex-column flex-md-row gap-5 mt-5 align-items-center justify-content-between">
                 <div>
                     <form id="balancePeriodForm" method="get" action="./balance">
                         <div class="d-flex gap-3" id="periodContainer">
@@ -103,7 +103,7 @@
             </div>
             <div class="d-flex gap-5">
                 <?php foreach ($incomesCategoryBalance as $categoryBalance) : ?>
-                    <div class="d-flex col-2 categoryBox p-2 rounded">
+                    <div class="d-flex col-md-2 categoryBox p-2 rounded">
                         <div class="col-8 p-1">
                             <div><?php echo $categoryBalance['value'] . " PLN"; ?></div>
                             <div><?php echo $categoryBalance['name']; ?></div>
@@ -184,7 +184,7 @@
             </div>
             <div class="d-flex gap-5">
                 <?php foreach ($expensesCategoryBalance as $categoryBalance) : ?>
-                    <div class="d-flex col-2 categoryBox p-2 rounded">
+                    <div class="d-flex col-md-2 categoryBox p-2 rounded">
                         <div class="col-8 p-1">
                             <div><?php echo $categoryBalance['value'] . " PLN"; ?></div>
                             <div><?php echo $categoryBalance['name']; ?></div>

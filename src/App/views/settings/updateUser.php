@@ -1,8 +1,8 @@
 <?php include $this->resolve("partials/_header.php") ?>
 
 <body>
-    <div class="mt-5 d-flex justify-content-center">
-        <div class="formsBackground w-50 p-4">
+    <div class="mt-5 d-flex  justify-content-center">
+        <div class="formsBackground p-5">
             <form method="post">
                 <div class="mb-3">
                     <label for="registerInputName" class="form-label">Name</label>
