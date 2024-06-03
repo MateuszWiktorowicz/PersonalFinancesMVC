@@ -35,6 +35,11 @@
         </section>
 
         <section class="sectionBox">
+            <div class="d-flex flex-column gap-3 align-items-center flex-lg-row justify-content-center mb-3 p-3" id="incomeChart">
+            </div>
+        </section>
+
+        <section class="sectionBox">
             <div class="text-center mt-5 pb-3">
                 <h2>Your incomes: <span><?php echo $totalIncomes['amount'] . " PLN"; ?></span></h2>
             </div>
@@ -115,6 +120,10 @@
             </div>
         </section>
         <section class="sectionBox">
+            <div class="d-flex flex-column gap-3 align-items-center flex-lg-row justify-content-center mb-3 p-3" id="expenseChart">
+            </div>
+        </section>
+        <section class="sectionBox">
             <div class="text-center mt-5 pb-3">
                 <h2>Your expenses: <span><?php echo $totalExpenses['amount'] . " PLN"; ?></span></h2>
             </div>
@@ -190,4 +199,10 @@
         </section>
 
     </main>
+
+    <script>
+        var incomeOperations = <?php echo json_encode($incomesCategoryBalance); ?>;
+        var expenseOperations = <?php echo json_encode($expensesCategoryBalance); ?>;
+    </script>
+
     <?php include $this->resolve("partials/_footer.php"); ?>
