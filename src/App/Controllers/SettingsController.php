@@ -269,6 +269,8 @@ class SettingsController
     {
         $transactions = $this->transactionService->selectExpensesByPaymentMethods((int) $params['category']);
 
+
+
         echo $this->view->render(
             "/settings/expensesByPaymentMethod.php",
             [

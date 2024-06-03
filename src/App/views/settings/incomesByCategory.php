@@ -18,9 +18,6 @@
                             Category
                         </th>
                         <th scope="col">
-                            Payment method
-                        </th>
-                        <th scope="col">
                             Date
                         </th>
                         <th scope="col" class="element-to-disable">
@@ -35,7 +32,6 @@
                             <tr class="table-success">
                                 <td><?php echo $transaction['amount'] . " PLN"; ?></td>
                                 <td><?php echo $transaction['category']; ?></td>
-                                <td><?php echo $transaction['paymentMethod']; ?></td>
                                 <td><?php echo $transaction['date']; ?></td>
                                 <td class="element-to-disable"><?php echo $transaction['comment']; ?></td>
                                 <td>

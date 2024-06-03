@@ -371,14 +371,16 @@ class TransactionService
             expenses.id AS id,
             expenses.amount AS amount,
             ec.name AS category,
-            '-' AS paymentMethod,
+            pm.name AS paymentMethod,
             expenses.date_of_expense AS date,
             expenses.expense_comment AS comment,
             'Expense' AS type
         FROM 
         expenses
             INNER JOIN expenses_category_assigned_to_users AS ec ON ec.id = expenses.expense_category_assigned_to_user_id 
-            WHERE expense_category_assigned_to_user_id = :id AND expenses.user_id = :user_id",
+            INNER JOIN payment_methods_assigned_to_users AS pm ON pm.id = expenses.payment_method_assigned_to_user_id
+            WHERE expense_category_assigned_to_user_id = :id AND expenses.user_id = :user_id
+            ",
             [
                 'id' => $categoryId,
                 'user_id' => $_SESSION['user']
@@ -427,7 +429,7 @@ class TransactionService
             expenses.id AS id,
             expenses.amount AS amount,
             pm.name AS category,
-            '-' AS paymentMethod,
+            pm.name AS paymentMethod,
             expenses.date_of_expense AS date,
             expenses.expense_comment AS comment,
             'Expense' AS type
