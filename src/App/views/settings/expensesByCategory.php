@@ -23,7 +23,7 @@
                         <th scope="col">
                             Date
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="element-to-disable">
                             Comment
                         </th>
                         <th scope="col">Actions</th>
@@ -37,7 +37,7 @@
                                 <td><?php echo $transaction['category']; ?></td>
                                 <td><?php echo $transaction['paymentMethod']; ?></td>
                                 <td><?php echo $transaction['date']; ?></td>
-                                <td><?php echo $transaction['comment']; ?></td>
+                                <td class="element-to-disable"><?php echo $transaction['comment']; ?></td>
                                 <td>
                                     <div class="d-flex gap-3">
                                         <div>

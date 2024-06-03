@@ -14,7 +14,7 @@
         </section>
         <section class="sectionBox">
             <div class="d-flex flex-column justify-content-center p-4">
-                <div class="d-flex flex-row-reverse justify-content-between gap-3 align-items-center mb-5">
+                <div class="d-flex flex-column flex-md-row  justify-content-between gap-5 align-items-center mb-5">
                     <div class="d-flex align-items-center">
                         <form id="balancePeriodForm" method="get" action="./balance">
                             <div class="d-flex gap-3" id="periodContainer">
