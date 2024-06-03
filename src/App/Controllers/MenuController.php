@@ -96,7 +96,7 @@ class MenuController
             'totalExpenses' => $this->transactionService->countExpensesFromPeriod($startDate, $endDate),
             'balance' => $this->transactionService->countBalanceFromPeriod($startDate, $endDate),
             'incomesCategoryBalance' => $this->transactionService->getIncomesBalanceByCategoryNameFromPeriod($startDate, $endDate),
-            'expensesCategoryBalance' => $this->transactionService->getExpensesBalanceByCategoryNameFromPeriod($startDate, $endDate)
+            'expensesCategoryBalance' => $this->transactionService->getExpensesBalanceByCategoryNameFromPeriod($startDate, $endDate),
         ];
     }
 }
