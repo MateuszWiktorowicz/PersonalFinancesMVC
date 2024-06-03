@@ -1,6 +1,6 @@
 <footer class="text-center">
     <div class="container mt-5">
-        <h4 class="fs-6">github.com/MateuszWiktorowicz</h4>
+        <h4 class="fs-6">PersonalFinances <i class="fa-regular fa-registered"></i></h4>
     </div>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
