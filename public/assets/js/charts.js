@@ -21,7 +21,7 @@ function insertNewChartsElements() {
     $("#charts").append("<div><canvas id='Expenses' style='width:100%;max-width:700px; height: 250px;'></canvas></div><div><canvas id='Incomes' style='width:100%;max-width:700px; height: 250px;'></canvas></div>");
 }
 
-function drawCharts(incomeOperations, expenseOperations) {
+function drawCharts(incomeOperations = null, expenseOperations = null) {
     
     insertNewChartsElements();
         

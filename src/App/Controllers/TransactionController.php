@@ -14,8 +14,7 @@ class TransactionController
         private TransactionService $transactionService,
         private ValidatorService $validatorService,
         private UserService $userService
-    ) {
-    }
+    ) {}
 
     public function createIncome()
     {
@@ -83,5 +82,19 @@ class TransactionController
         $this->transactionService->delete((int) $params['transaction'], $params['type']);
 
         redirectTo('/');
+    }
+
+    public function getLimit(array $params)
+    {
+        echo json_encode($this->transactionService->getCategoryLimit((string) $params['category']));
+    }
+
+    public function getExpensesFromCategory(array $params)
+    {
+        $date = $params['date'];
+
+        $dates =  getFirstAndLastDayOfMonthFromDate($date);
+
+        echo json_encode($this->transactionService->getExpensesFromCategoryFromPeriod((string) $params['category'], (string) $dates['firstDay'], (string) $dates['lastDay']), JSON_UNESCAPED_UNICODE);
     }
 }

@@ -199,7 +199,6 @@
         </section>
 
     </main>
-
     <script>
         var incomeOperations = <?php echo json_encode($incomesCategoryBalance); ?>;
         var expenseOperations = <?php echo json_encode($expensesCategoryBalance); ?>;

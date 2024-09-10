@@ -91,5 +91,14 @@ class ValidatorService
                 'category' => ['required', 'maxLength:50']
             ]
         );
+
+        if (isset($dataForm["limitCheckbox"]) && $dataForm["limitCheckbox"] === "on") {
+            $this->validator->validate(
+                $dataForm,
+                [
+                    'limit' => ['required', 'numeric']
+                ]
+            );
+        }
     }
 }

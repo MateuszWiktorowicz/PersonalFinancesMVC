@@ -8,9 +8,7 @@ use Framework\Database;
 
 class TransactionService
 {
-    public function __construct(private Database $db)
-    {
-    }
+    public function __construct(private Database $db) {}
 
     public function createIncome(array $formData)
     {
@@ -442,5 +440,68 @@ class TransactionService
                 'user_id' => $_SESSION['user']
             ]
         )->findAll();
+    }
+
+    public function getCategoryLimit(string $category)
+    {
+        return $this->db->query(
+            "SELECT
+            spend_limit
+            FROM
+            expenses_category_assigned_to_users
+            WHERE
+            id = :category
+            AND 
+            user_id = :userId",
+            [
+                'category' => $category,
+                'userId' => $_SESSION['user']
+            ]
+        )->find();
+    }
+
+
+    public function getExpensesFromCategoryFromPeriod(string $category, string $startDate, string $endDate)
+    {
+        $categorySpend = $this->db->query(
+            "SELECT 
+            c.name AS 'name',
+            COALESCE(SUM(e.amount), 0) AS 'value'
+        FROM 
+            expenses as e
+            INNER JOIN expenses_category_assigned_to_users as c ON c.id = e.expense_category_assigned_to_user_id
+        WHERE 
+            e.user_id = :user_id
+            AND
+            e.date_of_expense BETWEEN :start_date AND :end_date
+            AND
+            c.id = :category
+        GROUP BY 
+            e.expense_category_assigned_to_user_id
+        ORDER BY 
+            SUM(e.amount) DESC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'category' => $category
+            ]
+        )->find();
+
+        if (!$categorySpend) {
+            $categorySpend = [
+                'name' => $this->db->query(
+                    "SELECT name 
+                    FROM expenses_category_assigned_to_users 
+                    WHERE id = :category",
+                    ['category' => $category]
+                )->find()['name'],
+                'value' => 0
+            ];
+        }
+
+
+
+        return $categorySpend;
     }
 }

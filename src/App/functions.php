@@ -81,3 +81,21 @@ function getPeriodDates(mixed $period = 'currentMonth')
 
     return $dates;
 }
+
+function getFirstAndLastDayOfMonthFromDate($date)
+{
+
+    $year = date('Y', strtotime($date));
+    $month = date('m', strtotime($date));
+
+
+    $firstDay = "{$year}-{$month}-01";
+
+
+    $lastDay = date('Y-m-t', strtotime($firstDay));
+
+    return [
+        'firstDay' => $firstDay,
+        'lastDay' => $lastDay
+    ];
+}
