@@ -172,7 +172,7 @@ class SettingsController
     public function editExpenseCategory(array $params)
     {
         $this->validatorService->validateNewCategory($_POST);
-        $this->userService->isExpenseCategoryAssigned($_POST['category']);
+        $this->userService->isExpenseCategoryAssigned($_POST['category'], (int) $params['category']);
         $this->userService->updateExpenseCategory($_POST, (int) $params['category']);
 
         redirectTo('/expenseCategories');

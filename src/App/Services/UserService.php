@@ -9,9 +9,7 @@ use Framework\Exceptions\ValidationException;
 
 class UserService
 {
-    public function __construct(private Database $db)
-    {
-    }
+    public function __construct(private Database $db) {}
 
     public function isEmailTaken(string $email)
     {
@@ -254,11 +252,14 @@ class UserService
 
     public function addExpenseCategory(array $dataForm)
     {
+        $spendLimit = isset($dataForm['limit']) && $dataForm['limit'] !== '' ? $dataForm['limit'] : null;
+
         $this->db->query(
-            "INSERT INTO expenses_category_assigned_to_users(user_id, name) VALUES(:id, :categoryName);",
+            "INSERT INTO expenses_category_assigned_to_users(user_id, name, spend_limit) VALUES(:id, :categoryName, :spendLimit);",
             [
                 'id' => $_SESSION['user'],
-                'categoryName' => $dataForm['category']
+                'categoryName' => $dataForm['category'],
+                'spendLimit' => $spendLimit
             ]
         );
     }
@@ -276,10 +277,13 @@ class UserService
 
     public function updateExpenseCategory(array $formData, int $id)
     {
+        $spendLimit = isset($formData['limit']) && $formData['limit'] !== '' ? $formData['limit'] : null;
+
         $this->db->query(
             "UPDATE expenses_category_assigned_to_users
             SET
-            name = :name
+            name = :name,
+            spend_limit = :spendLimit
             WHERE
             user_id = :user_id
             AND
@@ -287,23 +291,36 @@ class UserService
             [
                 'user_id' => $_SESSION['user'],
                 'id' => $id,
-                'name' => $formData['category']
+                'name' => $formData['category'],
+                'spendLimit' => $spendLimit
             ]
         );
     }
 
-    public function isExpenseCategoryAssigned(string $categoryName)
+    public function isExpenseCategoryAssigned(string $categoryName, int $categoryId = -1)
     {
-        $categoryCount = $this->db->query(
-            "SELECT COUNT(*) AS count FROM expenses_category_assigned_to_users WHERE user_id = :id AND UPPER(name) = UPPER(:categoryName)",
-            [
-                'id' => $_SESSION['user'],
-                'categoryName' => $categoryName
-            ]
-        )->count();
+        if ($categoryId === -1) {
+            $categoryCount = $this->db->query(
+                "SELECT COUNT(*) AS count FROM expenses_category_assigned_to_users WHERE user_id = :id AND UPPER(name) = UPPER(:categoryName)",
+                [
+                    'id' => $_SESSION['user'],
+                    'categoryName' => $categoryName
+                ]
+            )->count();
+        } else {
+            $categoryCount = $this->db->query(
+                "SELECT COUNT(*) AS count FROM expenses_category_assigned_to_users WHERE user_id = :idUser AND UPPER(name) = UPPER(:categoryName) AND id != :categoryId",
+                [
+                    'idUser' => $_SESSION['user'],
+                    'categoryName' => $categoryName,
+                    'categoryId' => $categoryId
+                ]
+            )->count();
+        }
+
 
         if ($categoryCount > 0) {
-            throw new ValidationException(['category' => ['Payment method already assigned to Your account']]);
+            throw new ValidationException(['category' => ['Expense category already assigned to Your account']]);
         }
     }
 

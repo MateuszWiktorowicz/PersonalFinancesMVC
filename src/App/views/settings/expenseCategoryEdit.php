@@ -19,6 +19,19 @@
                             </div>
                         <?php endif; ?>
                     </div>
+                    <div class="col-md-3 d-flex align-items-center justify-content-end">
+                        <label for="limitCheckbox">Set limit: </label>
+                        <input type="checkbox" class="mx-2 form-check-input" name="limitCheckbox" id="limitCheckbox" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="limit" class="form-label">Category monthly spend limit:</label>
+                        <input class="form-control" min="0" step="0.01" name="limit" id="limit" disabled />
+                        <?php if (array_key_exists('limit', $errors)) : ?>
+                            <div class="mt-2 p-2 text-danger">
+                                <?php echo escapeData($errors['limit'][0]); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                     <div>
                         <button type="submit" class="btn btn-primary">Edit</button>
                     </div>
