@@ -3,8 +3,11 @@
 <body>
     <main>
         <div class="d-flex justify-content-center">
-            <div class="d-flex justify-content-center rounded mt-5">
+            <div class="d-flex flex-column justify-content-center rounded mt-5">
+                <div id="limitBox" class="d-flex flex-column mx-5 formsBackground rounded">
+                </div>
                 <div class="d-flex flex-column m-5 p-5 formsBackground rounded">
+
                     <form id="addExpenseForm" method="post">
                         <div class="mb-3">
                             <label for="amount" class="form-label">Expense amount:</label>
