@@ -25,7 +25,12 @@
                     </div>
                     <div class="col-md-3">
                         <label for="limit" class="form-label">Category monthly spend limit:</label>
-                        <input type="number" class="form-control" min="0" step="0.01" name="limit" id="limit" disabled />
+                        <input class="form-control" min="0" step="0.01" name="limit" id="limit" disabled />
+                        <?php if (array_key_exists('limit', $errors)) : ?>
+                            <div class="mt-2 p-2 text-danger">
+                                <?php echo escapeData($errors['limit'][0]); ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="col-md-3 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Add</button>

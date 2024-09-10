@@ -14,8 +14,7 @@ class SettingsController
         private UserService $userService,
         private ValidatorService $validatorService,
         private TransactionService $transactionService
-    ) {
-    }
+    ) {}
 
 
     public function updateUserView()
