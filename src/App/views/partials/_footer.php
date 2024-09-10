@@ -9,6 +9,7 @@
 <script src="/assets/js/dataPicker/js/bootstrap-datepicker.min.js"></script>
 <script src="/assets/js/date.js"></script>
 <script src="/assets/js/charts.js"></script>
+<script src="/assets/js/limits.js"></script>
 </body>
 
 

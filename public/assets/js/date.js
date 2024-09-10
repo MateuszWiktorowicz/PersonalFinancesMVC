@@ -3,5 +3,7 @@ $(function () {
         format: 'yyyy-mm-dd',
         autoclose: true,
     });
-  //  $(".datepicker").datepicker('setDate', new Date());
+    if (!$(".datepicker").val()) {
+      $(".datepicker").datepicker('setDate', new Date());
+  }
 });

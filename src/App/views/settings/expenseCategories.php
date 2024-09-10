@@ -10,7 +10,7 @@
         <section class="sectionBox">
             <form method="POST">
                 <div class="d-flex gap-3 align-items-end">
-                    <div class="col-4">
+                    <div class="col-md-3">
                         <label for="category" class="form-label">Type new Expense Category:</label>
                         <input type="text" class="form-control" name="category" id="category" required>
                         <?php if (array_key_exists('category', $errors)) : ?>
@@ -19,7 +19,15 @@
                             </div>
                         <?php endif; ?>
                     </div>
-                    <div>
+                    <div class="col-md-3 d-flex align-items-center justify-content-end">
+                        <label for="limitCheckbox">Set limit: </label>
+                        <input type="checkbox" class="mx-2 form-check-input" name="limitCheckbox" id="limitCheckbox" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="limit" class="form-label">Category monthly spend limit:</label>
+                        <input type="number" class="form-control" min="0" step="0.01" name="limit" id="limit" disabled />
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
 
