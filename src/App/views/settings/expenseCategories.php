@@ -44,7 +44,8 @@
                 <div class="d-flex bg-primary rounded p-2 text-white">
                     <div class="col-1">No.</div>
                     <div class="col-3">Category Name</div>
-                    <div class="col-4">Number Of Transactions</div>
+                    <div class="col-2">No Of Transactions</div>
+                    <div class="col-2">Spend limit / month</div>
                     <div class="col-4 text-start">Actions</div>
                 </div>
                 <?php $i = 1; ?>
@@ -52,7 +53,8 @@
                     <div class="d-flex p-2 border-bottom">
                         <div class="col-1"><?php echo $i; ?></div>
                         <div class="col-3"><?php echo $category['name']; ?></div>
-                        <div class="col-4"><?php echo $category['transactionNo']; ?></div>
+                        <div class="col-2"><?php echo  $category['transactionNo']; ?></div>
+                        <div class="col-2"><?php echo $category['spend_limit'] !== null ? $category['spend_limit'] : "Not set"; ?></div>
                         <div class=" col-4">
                             <div class="d-flex gap-3">
                                 <div>
